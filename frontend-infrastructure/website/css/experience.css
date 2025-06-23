@@ -1,0 +1,92 @@
+/* AFTER: Horizontal Card Layout Styles */
+.timeline-grid { /* New class for the grid container */
+    display: grid;
+    /* This creates a responsive grid: min 320px wide cards, as many as fit per row */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-xl); /* Space between the cards */
+    max-width: 1200px; /* Optional: max width for the grid itself */
+    margin: 0 auto; /* Center the grid within the container */
+    padding: 0 var(--spacing-md); /* Add some horizontal padding for smaller screens */
+}
+
+
+.timeline-card { /* Updated card styling for grid layout */
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Important: Makes all cards in a row the same height */
+    display: flex; /* Flex container for content inside card */
+    flex-direction: column; /* Stack header and description vertically */
+}
+
+.timeline-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--accent-green); /* Stays green */
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.card-info h3 {
+    font-family: var(--font-family-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.card-company {
+    color: var(--accent-blue);
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+}
+
+.card-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.card-description {
+    flex-grow: 1; /* Pushes the list items to take available space */
+}
+
+.card-description ul {
+    list-style: none;
+    padding: 0;
+}
+
+.card-description li {
+    position: relative;
+    padding-left: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.card-description li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+    font-weight: bold;
+}

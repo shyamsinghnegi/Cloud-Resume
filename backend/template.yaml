@@ -1,0 +1,60 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cloud Resume Challenge Backend
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.9
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      AllowOrigin: "'*'"
+      MaxAge: "'600'"
+
+Resources:
+  VisitorCountFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: lambda_function.lambda_handler
+      Description: Lambda function to handle visitor count for resume website
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref VisitorCountTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref VisitorCountTable
+      Events:
+        GetVisitorCount:
+          Type: Api
+          Properties:
+            Path: /visitor-count
+            Method: get
+
+  VisitorCountTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: visitor-count
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+Outputs:
+  VisitorCountApiUrl:
+    Description: API Gateway endpoint URL for visitor count
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count'
+  
+  VisitorCountFunctionArn:
+    Description: Visitor Count Lambda Function ARN
+    Value: !GetAtt VisitorCountFunction.Arn
+      
+  DynamoDBTableName:
+    Description: DynamoDB table name
+    Value: !Ref VisitorCountTable

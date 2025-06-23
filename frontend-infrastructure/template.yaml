@@ -1,0 +1,218 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cloud Resume Challenge Frontend Infrastructure
+
+Parameters:
+  DomainName:
+    Type: String
+    Description: Domain name for the website (e.g., myresume.com)
+    Default: ""
+  
+  CreateDNS:
+    Type: String
+    Description: Whether to create Route53 hosted zone
+    Default: "false"
+    AllowedValues: ["true", "false"]
+  
+  ExistingHostedZoneId:
+    Type: String
+    Description: Existing Route53 Hosted Zone ID (if not creating new one)
+    Default: ""
+
+Conditions:
+  HasDomainName: !Not [!Equals [!Ref DomainName, ""]]
+  ShouldCreateDNS: !And 
+    - !Condition HasDomainName
+    - !Equals [!Ref CreateDNS, "true"]
+  HasExistingHostedZone: !And
+    - !Condition HasDomainName
+    - !Not [!Equals [!Ref ExistingHostedZoneId, ""]]
+    - !Equals [!Ref CreateDNS, "false"]
+
+Resources:
+  # S3 Bucket for Website
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${AWS::StackName}-website-${AWS::AccountId}"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  # CloudFront Origin Access Control
+  OriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub "${AWS::StackName}-OAC"
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  # CloudFront Distribution
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases: !If 
+          - HasDomainName
+          - [!Ref DomainName, !Sub "www.${DomainName}"]
+          - !Ref "AWS::NoValue"
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6  # Managed-CachingOptimized
+          OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf  # Managed-CORS-S3Origin
+          ResponseHeadersPolicyId: 67f7725c-6f97-4210-82d7-5512b31e9d03  # Managed-SecurityHeadersPolicy
+          Compress: true
+        DefaultRootObject: index.html
+        Enabled: true
+        HttpVersion: http2
+        IPV6Enabled: true
+        Origins:
+          - Id: S3Origin
+            DomainName: !GetAtt WebsiteBucket.RegionalDomainName
+            S3OriginConfig:
+              OriginAccessIdentity: ""
+            OriginAccessControlId: !GetAtt OriginAccessControl.Id
+        PriceClass: PriceClass_100
+        ViewerCertificate: !If
+          - HasDomainName
+          - AcmCertificateArn: !Ref SSLCertificate
+            SslSupportMethod: sni-only
+            MinimumProtocolVersion: TLSv1.2_2021
+          - CloudFrontDefaultCertificate: true
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+
+  # S3 Bucket Policy (Fixed for OAC)
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Statement:
+          - Sid: AllowCloudFrontServicePrincipal
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub "${WebsiteBucket.Arn}/*"
+            Condition:
+              StringEquals:
+                "AWS:SourceArn": !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}"
+
+  # SSL Certificate (if domain provided)
+  SSLCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Condition: HasDomainName
+    Properties:
+      DomainName: !Ref DomainName
+      SubjectAlternativeNames:
+        - !Sub "www.${DomainName}"
+      ValidationMethod: DNS
+      DomainValidationOptions: !If
+        - ShouldCreateDNS
+        - - DomainName: !Ref DomainName
+            HostedZoneId: !Ref HostedZone
+          - DomainName: !Sub "www.${DomainName}"
+            HostedZoneId: !Ref HostedZone
+        - !Ref "AWS::NoValue"
+
+  # Route53 Hosted Zone (optional)
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Condition: ShouldCreateDNS
+    Properties:
+      Name: !Ref DomainName
+
+  # Route53 Records (if domain provided)
+  DNSRecord:
+    Type: AWS::Route53::RecordSet
+    Condition: ShouldCreateDNS
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2  # CloudFront hosted zone ID
+
+  WWWDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Condition: ShouldCreateDNS
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: !Sub "www.${DomainName}"
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+
+  # DNS Records for existing hosted zone
+  ExistingDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Condition: HasExistingHostedZone
+    Properties:
+      HostedZoneId: !Ref ExistingHostedZoneId
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+
+  ExistingWWWDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Condition: HasExistingHostedZone
+    Properties:
+      HostedZoneId: !Ref ExistingHostedZoneId
+      Name: !Sub "www.${DomainName}"
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+
+Outputs:
+  WebsiteBucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref WebsiteBucket
+    Export:
+      Name: !Sub "${AWS::StackName}-BucketName"
+
+  CloudFrontDistributionId:
+    Description: CloudFront Distribution ID
+    Value: !Ref CloudFrontDistribution
+    Export:
+      Name: !Sub "${AWS::StackName}-DistributionId"
+
+  CloudFrontDomainName:
+    Description: CloudFront Distribution Domain Name
+    Value: !GetAtt CloudFrontDistribution.DomainName
+    Export:
+      Name: !Sub "${AWS::StackName}-DomainName"
+
+  WebsiteURL:
+    Description: Website URL
+    Value: !If
+      - HasDomainName
+      - !Sub "https://${DomainName}"
+      - !Sub "https://${CloudFrontDistribution.DomainName}"
+
+  HostedZoneId:
+    Description: Route53 Hosted Zone ID
+    Condition: ShouldCreateDNS
+    Value: !Ref HostedZone
+    Export:
+      Name: !Sub "${AWS::StackName}-HostedZoneId"
+
+  NameServers:
+    Description: Route53 Name Servers
+    Condition: ShouldCreateDNS
+    Value: !Join [", ", !GetAtt HostedZone.NameServers]

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shyam Singh Negi - Cloud Resume</title>
+    <!-- <link rel="stylesheet" href="css/styles.css"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@100;200;300;400;500;600;700;800;900&family=SF+Pro+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <!-- Divided CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/visitor.css">
+    <link rel="stylesheet" href="css/sections_general.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/skills.css">
+    <link rel="stylesheet" href="css/experience.css">
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/education_cert.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <!-- End Divided CSS Files -->
+    
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loader-logo">
+                <i class="fas fa-cloud"></i>
+            </div>
+            <h2 class="loading-title">Shyam Singh Negi</h2>
+            <p class="loading-subtitle">Cloud Engineer & Full Stack Developer</p>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            <p class="loading-text" id="loading-text">Initializing...</p>
+        </div>
+        <div class="particles-container" id="particles-container"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cloud"></i>
+                <span>Shyam Singh Negi</span>
+            </div>
+            <div class="nav-links">
+                <a href="#hero" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="hero-greeting">Hello, I'm</span>
+                        <span class="hero-name">Shyam Singh Negi</span>
+                    </h1>
+                    <p class="hero-subtitle" id="animated-tagline">
+                        Building scalable cloud solutions with modern technologies
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#about" class="cta-primary">Learn More</a>
+                        <a href="#contact" class="cta-secondary">Get in Touch</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar-content">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-scroll">
+                <div class="scroll-indicator">
+                    <span>Scroll to explore</span>
+                    <div class="scroll-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visitor Counter -->
+        <section class="visitor-section">
+            <div class="container">
+                <div class="visitor-counter">
+                    <div class="visitor-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="visitor-content">
+                        <span class="visitor-label">Portfolio Views</span>
+                        <span id="visitor-count" class="visitor-number">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">About Me</h2>
+                    <p class="section-subtitle">Passionate about cloud technologies and innovation</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p class="about-description">
+                            I'm a passionate Cloud Engineer with expertise in AWS services, full-stack development. 
+                            Currently working on the Cloud Resume to demonstrate 
+                            hands-on experience with serverless architectures, infrastructure as code, and CI/CD pipelines.
+                        </p>
+                        <div class="about-highlights">
+                            <div class="highlight-item">
+                                <div class="highlight-icon">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <div class="highlight-content">
+                                    <h4>Cloud Architecture</h4>
+                                    <p>Designing scalable solutions</p>
+                                </div>
+                            </div>
+                            <div class="highlight-item">
+                                <div class="highlight-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="highlight-content">
+                                    <h4>Full Stack Development</h4>
+                                    <p>End-to-end application development</p>
+                                </div>
+                            </div>
+                            <!-- <div class="highlight-item">
+                                <div class="highlight-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div class="highlight-content">
+                                    <h4>DevOps Practices</h4>
+                                    <p>Automation and CI/CD pipelines</p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section skills-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Technical Skills</h2>
+                    <p class="section-subtitle">Technologies I work with</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h3>Cloud Platforms</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">AWS</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">Lambda</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">API Gateway</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">DynamoDB</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="75"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>Programming</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">Python</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">JavaScript</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">HTML/CSS</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">SQL</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h3>Tools & DevOps</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">Git</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">GitHub Actions</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">Docker</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="75"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">CloudFormation</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="70"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section experience-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Experience</h2>
+            <p class="section-subtitle">My professional journey</p>
+        </div>
+        <div class="timeline-grid"> <!-- Changed class from 'timeline' to 'timeline-grid' -->
+            <!-- Cloud Resume Challenge Project Card -->
+            <div class="timeline-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Cloud Resume</h3>
+                        <p class="card-company">Personal Project</p>
+                        <span class="card-date">2025 - Present</span>
+                    </div>
+                </div>
+                <div class="card-description">
+                    <ul>
+                        <li>Built serverless visitor counter using AWS Lambda, API Gateway, and DynamoDB</li>
+                        <li>Implemented Infrastructure as Code using AWS SAM templates</li>
+                        <li>Deployed static website on S3 with CloudFront CDN</li>
+                        <li>Wrote comprehensive Python tests for Lambda functions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Full Stack Developer Card -->
+            <div class="timeline-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Full Stack Developer</h3>
+                        <span class="card-date">2024 - Present</span>
+                    </div>
+                </div>
+                <div class="card-description">
+                    <ul>
+                        <li>Developed and maintained web applications using modern frameworks</li>
+                        <li>Collaborated with cross-functional teams to deliver high-quality software</li>
+                        <li>Implemented responsive designs and optimized application performance</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Add more timeline-card divs here for additional experience entries -->
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+        <section id="projects" class="section projects-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">Some of my recent work</p>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div class="project-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Cloud Resume</h3>
+                            <p class="project-description">
+                                End-to-end serverless web application demonstrating AWS cloud skills including 
+                                Lambda functions, API Gateway, DynamoDB, S3 static hosting, CloudFront
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">AWS</span>
+                                <span class="tech-tag">Lambda</span>
+                                <span class="tech-tag">DynamoDB</span>
+                                <span class="tech-tag">S3</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                    <span>View Code</span>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Live Demo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW PROJECT CARD ADDED BELOW -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div class="project-icon">
+                                <i class="fas fa-landmark"></i> <!-- Icon for heritage -->
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Indian Heritage</h3>
+                            <p class="project-description">
+                                Developed and designed the front-end for a Smart India Hackathon 2023 website 
+                                using React and Tailwind CSS, with a GSAP-enhanced UI for smooth animations.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">MERN</span>
+                                <span class="tech-tag">Tailwind</span>
+                                <span class="tech-tag">GSAP</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/miranish/SIH_2023_V-STARS" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                    <span>View Code</span>
+                                </a>
+                                <a href="https://sih-2023-v-stars.vercel.app" class="project-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Live Demo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END NEW PROJECT CARD -->
+
+                </div>
+            </div>
+        </section>
+        <!-- Education & Certifications -->
+        <section class="section education-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Education & Certifications</h2>
+                    <p class="section-subtitle">Continuous learning journey</p>
+                </div>
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="education-content">
+                            <h3>Bachelors in Computer Application</h3>
+                            <p class="education-institution">Institute of Information Technology and Management</p>
+                            <span class="education-year">2021-2024</span>
+                        </div>
+                    </div>
+                    <div class="certification-card">
+                        <div class="cert-icon">
+                            <i class="fab fa-aws"></i>
+                        </div>
+                        <div class="cert-content">
+                            <h3>AWS Cloud Practitioner</h3>
+                            <p class="cert-status">In Progress</p>
+                            <div class="cert-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-progress="50"></div>
+                                </div>
+                                <span class="progress-text">50% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Get in Touch</h2>
+                    <p class="section-subtitle">Let's build something amazing together</p>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>shyamsinghnegi54@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>+91 9555918823</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>LinkedIn</h4>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>GitHub</h4>
+                                <p>github.com/shyamsinghnegi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <div class="footer-logo">
+                            <i class="fas fa-cloud"></i>
+                            <span>Shyam Singh Negi</span>
+                        </div>
+                        <p class="footer-description">
+                            Built with ❤️ using AWS serverless technologies.
+                        </p>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-section">
+                            <h4>Connect</h4>
+                            <div class="social-links">
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Shyam Singh Negi. All rights reserved.</p>
+              
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
