@@ -4,16 +4,16 @@
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--navbar-bg);  
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--navbar-border-color);  
     z-index: 1000;
     transition: all 0.3s ease;
 }
 
 .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--navbar-bg-scrolled);  
     box-shadow: var(--shadow-sm);
 }
 
@@ -34,15 +34,17 @@
     font-family: var(--font-family-display);
     font-weight: 600;
     font-size: 1.1rem;
-    color: var(--text-primary);
+    color: var(--text-primary);  
     text-decoration: none;
+    z-index: 1001; /* Ensure logo is above mobile menu when open */
 }
 
 .nav-logo i {
     font-size: 1.2rem;
-    color: var(--accent-blue);
+    color: var(--accent-blue);  
 }
 
+/* Base style for nav-links (desktop) */
 .nav-links {
     display: flex;
     align-items: center;
@@ -59,7 +61,7 @@
 }
 
 .nav-link:hover {
-    color: var(--accent-blue);
+    color: var(--accent-blue); 
 }
 
 .nav-link::after {
@@ -69,7 +71,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--accent-blue);
+    background: var(--accent-blue); 
     transition: width 0.3s ease;
 }
 
@@ -77,16 +79,45 @@
     width: 100%;
 }
 
+/* Dark Mode Toggle Button Styling */
+.dark-mode-toggle {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding: 5px;
+    flex-shrink: 0;
+}
+
+.dark-mode-toggle:hover {
+    color: var(--accent-blue);
+    transform: scale(1.1);
+}
+
+/* Mobile Toggle (Hamburger Icon) */
 .nav-toggle {
-    display: none;
+    display: none; 
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
+    z-index: 1001;
 }
 
 .nav-toggle span {
     width: 24px;
     height: 2px;
-    background: var(--text-primary);
+    background: var(--text-primary); 
     transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Hamburger icon animation when active */
+.nav-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+.nav-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
 }

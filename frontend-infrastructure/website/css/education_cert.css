@@ -8,7 +8,7 @@
 }
 
 .education-card, .certification-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: var(--radius-xl);
     padding: var(--spacing-xl);
     box-shadow: var(--shadow-md);
@@ -31,7 +31,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: white; 
     font-size: 1.2rem;
     flex-shrink: 0;
 }
@@ -44,17 +44,17 @@
     font-family: var(--font-family-display);
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-primary); 
     margin-bottom: var(--spacing-xs);
 }
 
 .education-institution, .cert-status {
-    color: var(--text-secondary);
+    color: var(--text-secondary); 
     margin-bottom: var(--spacing-xs);
 }
 
 .education-year {
-    color: var(--text-tertiary);
+    color: var(--text-tertiary); 
     font-size: 0.9rem;
 }
 
@@ -64,7 +64,7 @@
 
 .progress-bar {
     height: 6px;
-    background: var(--background-secondary);
+    background: var(--background-tertiary); 
     border-radius: 3px;
     overflow: hidden;
     margin-bottom: var(--spacing-xs);
@@ -80,5 +80,5 @@
 
 .progress-text {
     font-size: 0.85rem;
-    color: var(--text-secondary);
+    color: var(--text-secondary); /* Explicitly use variable */
 }

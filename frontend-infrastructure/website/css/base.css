@@ -18,6 +18,51 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    /* Smooth transition for theme change */
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+/* NEW: Dark Mode Styles */
+body.dark-mode {
+    /* Backgrounds */
+    --background-primary: #1A202C; 
+    --background-secondary: #2D3748; 
+    --background-tertiary: #4A5568; 
+    
+    /* Text Colors - ADJUSTED FOR BETTER CONTRAST */
+    --text-primary: #E2E8F0; 
+    --text-secondary: #A0AEC0; 
+    --text-tertiary: #718096; 
+
+    /* Accent Colors (adjusted for contrast on dark) */
+    --accent-blue: #63B3ED; 
+    --accent-purple: #B794F4; 
+    --accent-green: #68D391; 
+    --accent-orange: #F6AD55; 
+    --accent-red: #FC8181; 
+
+    /* Navbar specific variables for dark mode */
+    --navbar-bg: rgba(26, 32, 44, 0.8); 
+    --navbar-bg-scrolled: rgba(26, 32, 44, 0.95);
+    --navbar-border-color: rgba(255, 255, 255, 0.1); 
+
+    /* Card background for dark mode (originally white in light mode) */
+    --card-bg: var(--background-secondary); 
+
+    /* NEW: Footer specific variables for dark mode */
+    --footer-background: var(--background-primary); 
+    --footer-text: var(--text-primary); 
+
+    /* Shadows might need adjustment for dark mode visibility */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* Main Wrapper */

@@ -1,16 +1,17 @@
 /* Variables for Apple-Style Resume Website */
 :root {
-    /* Loading screen color palette */
+    /* Loading screen color palette (typically not affected by dark mode) */
     --primary-gradient: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);
     --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     
-    /* Apple-inspired colors */
+    /* Apple-inspired colors (Light Mode Defaults) */
     --text-primary: #1d1d1f;
     --text-secondary: #86868b;
     --text-tertiary: #6e6e73;
-    --background-primary: #ffffff;
-    --background-secondary: #f5f5f7;
-    --background-tertiary: #fbfbfd;
+    --background-primary: #F2F0EF; 
+    --background-secondary:rgb(229, 228, 227);
+    --background-tertiary: #fbfbfd; 
+    
     --accent-blue: #007aff;
     --accent-purple: #af52de;
     --accent-green: #30d158;
@@ -41,4 +42,16 @@
     --radius-md: 12px;
     --radius-lg: 16px;
     --radius-xl: 24px;
+
+    /* Navbar specific variables */
+    --navbar-bg: rgba(255, 255, 255, 0.8);
+    --navbar-bg-scrolled: rgba(255, 255, 255, 0.95);
+    --navbar-border-color: rgba(0, 0, 0, 0.1);
+
+    /* Card background variables */
+    --card-bg: white; 
+
+    /* NEW: Footer specific variables for light mode */
+    --footer-background: var(--text-primary); 
+    --footer-text: white; 
 }
