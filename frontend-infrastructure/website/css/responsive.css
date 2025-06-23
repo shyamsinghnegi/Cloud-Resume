@@ -1,4 +1,6 @@
 /* Responsive Design Media Queries */
+
+/* Tablet & Smaller Desktop Adjustments */
 @media (max-width: 1024px) {
     .hero-content {
         flex-direction: column;
@@ -11,73 +13,250 @@
     }
     
     .hero-name {
-        font-size: 3rem;
+        font-size: 3rem; /* Slightly smaller for tablets */
     }
     
+    /* General section padding adjustments for slightly smaller screens */
+    .section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    /* Adjust the min-width for grid items to allow more items per row on tablets */
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .timeline-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+    .education-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .contact-info {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
 }
 
+/* Mobile Devices (Phones & Small Tablets) */
 @media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
-    
+    /* Navbar Mobile Specifics */
     .nav-toggle {
-        display: flex;
+        display: flex; /* Show hamburger icon */
     }
     
+    .nav-links {
+        position: fixed;
+        top: 0; /* Cover the entire screen from the top */
+        left: 0;
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        background: var(--background-primary); /* Use main background variable for full opacity */
+        /* Removed backdrop-filter to ensure content behind is fully obscured */
+        flex-direction: column;
+        justify-content: center; /* Center links vertically */
+        align-items: center;
+        gap: var(--spacing-lg); /* Reduced gap for mobile links */
+        transform: translateX(100%); /* Start off-screen */
+        transition: transform 0.4s ease-out;
+        z-index: 1000; /* Ensure it's above main content */
+    }
+
+    .nav-links.active {
+        transform: translateX(0); /* Slide in */
+    }
+
+    .nav-links .nav-link,
+    .nav-links .dark-mode-toggle { /* Style links and toggle button within mobile menu */
+        font-size: 1.2rem; /* Reduced font size for mobile links */
+        padding: var(--spacing-sm) var(--spacing-md); /* Adjusted padding for smaller size */
+        border-radius: var(--radius-lg);
+        width: auto; /* Allow links to naturally size */
+        display: block; /* Ensure full clickable area */
+        text-align: center;
+        color: var(--text-primary); /* Explicitly set text color to ensure visibility */
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+    .nav-links .nav-link:hover,
+    .nav-links .dark-mode-toggle:hover {
+        background: var(--background-secondary); /* Darker hover background for mobile menu */
+        color: var(--accent-blue); /* Optional: hover color */
+    }
+    /* Ensure dark mode toggle icon size matches link font size */
+    .nav-links .dark-mode-toggle i {
+        font-size: 1.2rem;
+    }
+
+    /* Hero Section Adjustments */
     .hero-name {
         font-size: 2.5rem;
     }
-    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    .hero-cta {
+        flex-direction: column; /* Stack CTA buttons */
+        align-items: stretch;
+        max-width: 300px; /* Limit button width */
+        margin: 0 auto; /* Center buttons */
+    }
+    .cta-primary, .cta-secondary {
+        width: 100%; /* Make buttons full width in stack */
+    }
+    .hero-visual {
+        flex: none; /* Prevent avatar from taking too much space */
+        width: 150px; /* Smaller avatar */
+        height: 150px;
+    }
+    .hero-visual .avatar-ring {
+        top: -15px;
+        left: -15px;
+        right: -15px;
+        bottom: -15px;
+    }
+    .hero-visual .avatar-content {
+        font-size: 3rem;
+    }
+
+    /* General Section Header Adjustments */
     .section-title {
         font-size: 2.5rem;
     }
-    
-    .hero-cta {
-        flex-direction: column;
-        align-items: stretch;
+    .section-subtitle {
+        font-size: 1.1rem;
     }
-    
-    .skills-grid {
-        grid-template-columns: 1fr;
+
+    /* Visitor Counter on mobile */
+    .visitor-counter {
+        margin: var(--spacing-xl) auto var(--spacing-2xl); /* Adjust margins when placed in about section */
+        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+        flex-direction: row; /* Keep it horizontal if it fits */
+        max-width: 300px; /* Limit width */
     }
-    
-    .projects-grid {
-        grid-template-columns: 1fr;
+    .visitor-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
-    
+    .visitor-number {
+        font-size: 1.3rem;
+    }
+
+    /* About Section */
+    .about-description {
+        font-size: 1rem;
+    }
+    .about-highlights {
+        grid-template-columns: 1fr; /* Stack highlights on mobile */
+        gap: var(--spacing-md);
+    }
+    .highlight-item {
+        padding: var(--spacing-md);
+    }
+    .highlight-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    .highlight-content h4 {
+        font-size: 1rem;
+    }
+    .highlight-content p {
+        font-size: 0.9rem;
+    }
+
+    /* Skill Categories, Experience, Projects, Education, Contact info - Stack vertically */
+    .skills-grid,
+    .timeline-grid,
+    .projects-grid,
+    .education-grid,
     .contact-info {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; 
+        gap: var(--spacing-md); 
     }
-    
+
+    /* Adjust padding for cards */
+    .skill-category,
+    .timeline-card,
+    .project-card,
+    .education-card,
+    .certification-card,
+    .contact-item {
+        padding: var(--spacing-md); 
+    }
+
+    /* Adjust font sizes within cards for mobile */
+    .category-header h3,
+    .project-title,
+    .timeline-card h3,
+    .education-content h3,
+    .cert-content h3,
+    .contact-details h4 {
+        font-size: 1.1rem;
+    }
+    .project-description,
+    .card-description li,
+    .contact-details p {
+        font-size: 0.9rem;
+    }
+
+    /* Footer adjustments */
     .footer-content {
         flex-direction: column;
         text-align: center;
+        align-items: center;
+        gap: var(--spacing-xl);
+    }
+    .footer-info, .footer-section {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    .social-links {
+        justify-content: center;
     }
 }
 
+/* Very Small Mobile Devices (e.g., iPhone 5/SE) */
 @media (max-width: 480px) {
     .container {
-        padding: 0 var(--spacing-sm);
+        padding: 0 var(--spacing-sm); 
     }
     
     .hero-name {
-        font-size: 2rem;
-    }
-    
-    .section-title {
         font-size: 2rem;
     }
     
     .hero-subtitle {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
-    
-    .loading-title {
+
+    .section-title {
         font-size: 2rem;
+        margin-bottom: var(--spacing-md);
     }
-    
-    .loading-bar {
-        width: 250px;
+    .section-subtitle {
+        font-size: 0.9rem;
+    }
+
+    /* Further adjust card padding for very small screens */
+    .skill-category,
+    .timeline-card,
+    .project-card,
+    .education-card,
+    .certification-card,
+    .contact-item {
+        padding: var(--spacing-sm); 
+    }
+
+    .category-header h3,
+    .project-title,
+    .timeline-card h3,
+    .education-content h3,
+    .cert-content h3,
+    .contact-details h4 {
+        font-size: 1rem; 
     }
 }

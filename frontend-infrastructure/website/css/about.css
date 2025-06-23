@@ -23,7 +23,7 @@
     align-items: flex-start;
     gap: var(--spacing-md);
     padding: var(--spacing-lg);
-    background: white;
+    background: var(--card-bg); 
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -42,7 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: white; 
     font-size: 1.2rem;
     flex-shrink: 0;
 }
@@ -51,11 +51,11 @@
     font-family: var(--font-family-display);
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-primary); 
     margin-bottom: var(--spacing-xs);
 }
 
 .highlight-content p {
-    color: var(--text-secondary);
+    color: var(--text-secondary); 
     font-size: 0.95rem;
 }

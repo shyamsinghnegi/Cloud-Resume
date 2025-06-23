@@ -1,24 +1,22 @@
-/* AFTER: Horizontal Card Layout Styles */
+/* Experience Section Styles */
 .timeline-grid { /* New class for the grid container */
     display: grid;
-    /* This creates a responsive grid: min 320px wide cards, as many as fit per row */
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-xl); /* Space between the cards */
-    max-width: 1200px; /* Optional: max width for the grid itself */
-    margin: 0 auto; /* Center the grid within the container */
-    padding: 0 var(--spacing-md); /* Add some horizontal padding for smaller screens */
+    gap: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
 }
 
-
-.timeline-card { /* Updated card styling for grid layout */
-    background: white;
+.timeline-card {
+    background: var(--card-bg); 
     border-radius: var(--radius-xl);
     padding: var(--spacing-xl);
     box-shadow: var(--shadow-md);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%; /* Important: Makes all cards in a row the same height */
-    display: flex; /* Flex container for content inside card */
-    flex-direction: column; /* Stack header and description vertically */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .timeline-card:hover {
@@ -36,12 +34,12 @@
 .card-icon {
     width: 50px;
     height: 50px;
-    background: var(--accent-green); /* Stays green */
+    background: var(--accent-green);
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: white; 
     font-size: 1.2rem;
     flex-shrink: 0;
 }
@@ -50,12 +48,12 @@
     font-family: var(--font-family-display);
     font-size: 1.3rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-primary); 
     margin-bottom: var(--spacing-xs);
 }
 
 .card-company {
-    color: var(--accent-blue);
+    color: var(--accent-blue); 
     font-weight: 500;
     margin-bottom: var(--spacing-xs);
 }
@@ -67,7 +65,7 @@
 }
 
 .card-description {
-    flex-grow: 1; /* Pushes the list items to take available space */
+    flex-grow: 1;
 }
 
 .card-description ul {
@@ -79,7 +77,7 @@
     position: relative;
     padding-left: var(--spacing-md);
     margin-bottom: var(--spacing-sm);
-    color: var(--text-primary);
+    color: var(--text-primary); 
     line-height: 1.6;
 }
 
@@ -87,6 +85,6 @@
     content: '•';
     position: absolute;
     left: 0;
-    color: var(--accent-blue);
+    color: var(--accent-blue); 
     font-weight: bold;
 }

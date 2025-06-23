@@ -13,6 +13,10 @@ const particlesContainer = document.getElementById('particles-container');
 const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('nav-toggle');
 
+// NEW: Dark Mode Toggle elements
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+const darkModeIcon = document.getElementById('dark-mode-icon');
+
 // Loading screen messages
 const loadingMessages = [
     'Initializing...',
@@ -258,10 +262,20 @@ function initSmoothScrolling() {
 
 // Mobile navigation toggle (add functionality here if needed)
 function initMobileNav() {
+    const navLinks = document.querySelector('.nav-links');
     navToggle.addEventListener('click', function() {
-        console.log('Mobile menu toggle clicked');
-        // Example: toggle a class on the nav-links div to show/hide it
-        // document.querySelector('.nav-links').classList.toggle('active');
+        navLinks.classList.toggle('active'); // Toggles the 'active' class
+        navToggle.classList.toggle('open'); // Optional: adds 'open' class for animated hamburger icon
+        document.body.classList.toggle('no-scroll'); // Optional: prevents scrolling when menu is open
+    });
+
+    // Close menu when a nav link is clicked (for smooth scrolling)
+    navLinks.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            navToggle.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
     });
 }
 
@@ -363,6 +377,30 @@ function initPerformanceMonitoring() {
     }
 }
 
+// NEW: Dark Mode Functions
+function setMode(mode) {
+    if (mode === 'dark') {
+        document.body.classList.add('dark-mode');
+        darkModeIcon.classList.remove('fa-sun');
+        darkModeIcon.classList.add('fa-moon');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-mode');
+        darkModeIcon.classList.remove('fa-moon');
+        darkModeIcon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+function toggleDarkMode() {
+    if (document.body.classList.contains('dark-mode')) {
+        setMode('light');
+    } else {
+        setMode('dark');
+    }
+}
+
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting Apple-style resume...');
@@ -382,6 +420,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add ripple CSS
     addRippleCSS();
+
+    // NEW: Dark mode initialization on load
+     const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        // If a theme preference is saved (e.g., 'light' or 'dark'), use it
+        setMode(savedTheme);
+    } else {
+        // If no theme preference is saved, default to dark mode
+        setMode('dark');
+    }
+
+    // Attach dark mode toggle listener
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+    }
 });
 
 // Add scroll event listeners

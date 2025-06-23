@@ -6,7 +6,7 @@
 }
 
 .project-card {
-    background: white;
+    background: var(--card-bg);  
     border-radius: var(--radius-xl);
     overflow: hidden;
     box-shadow: var(--shadow-md);
@@ -20,7 +20,7 @@
 
 .project-image {
     height: 200px;
-    background: var(--secondary-gradient);
+    background: var(--secondary-gradient); 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,7 +30,7 @@
 
 .project-icon {
     font-size: 3rem;
-    color: white;
+    color: white; 
     opacity: 0.9;
 }
 
@@ -60,8 +60,8 @@
 }
 
 .tech-tag {
-    background: var(--background-secondary);
-    color: var(--text-primary);
+    background: var(--background-tertiary); 
+    color: var(--text-primary); 
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--radius-sm);
     font-size: 0.85rem;
@@ -88,6 +88,6 @@
 
 .project-link:hover {
     background: var(--accent-blue);
-    color: white;
+    color: white; 
     transform: translateY(-2px);
 }

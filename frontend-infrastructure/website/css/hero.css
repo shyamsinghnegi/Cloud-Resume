@@ -9,7 +9,7 @@
     background: var(--secondary-gradient);
     color: white;
     position: relative;
-    overflow: hidden; /* Important for containing parallax elements */
+    overflow: hidden; 
 }
 
 .hero-content {
@@ -20,9 +20,9 @@
     max-width: 1200px;
     padding: 0 var(--spacing-md);
     gap: var(--spacing-3xl);
-    position: relative; /* Allows translateY to work independently */
-    z-index: 2; /* Ensure it's above other elements if needed */
-    transition: transform 0.1s ease-out; /* Smooth transition for parallax */
+    position: relative; 
+    z-index: 2; 
+    transition: transform 0.1s ease-out; 
 }
 
 .hero-text {
@@ -108,12 +108,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; /* Needed for avatar-ring positioning */
-    transition: transform 0.1s ease-out; /* Smooth transition for parallax */
-    z-index: 1; /* Ensure it's behind hero-content if elements overlap */
-}
+    position: relative; 
+    transition: transform 0.1s ease-out;
+    z-index: 1;
 
-.hero-avatar { /* This class is no longer on an element directly, but good to keep if you add it back */
+.hero-avatar {  
     position: relative;
     width: 200px;
     height: 200px;
@@ -148,7 +147,7 @@
     bottom: var(--spacing-xl);
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2; /* Ensure it's above other elements if needed */
+    z-index: 2;
 }
 
 .scroll-indicator {

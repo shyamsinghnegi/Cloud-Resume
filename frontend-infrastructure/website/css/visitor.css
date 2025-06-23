@@ -1,7 +1,7 @@
 /* Visitor Section Styles */
 .visitor-section {
     padding: var(--spacing-xl) 0;
-    background: var(--background-secondary);
+    background: var(--background-primary); 
 }
 
 .visitor-counter {
@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--spacing-md);
-    background: white;
+    background: var(--card-bg); 
     padding: var(--spacing-lg);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-md);
@@ -25,7 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: white; 
     font-size: 1.2rem;
 }
 
@@ -36,13 +36,13 @@
 
 .visitor-label {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-secondary); 
     font-weight: 500;
 }
 
 .visitor-number {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--text-primary); 
     font-family: var(--font-family-display);
 }

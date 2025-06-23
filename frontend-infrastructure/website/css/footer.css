@@ -1,7 +1,7 @@
 /* Footer Styles */
 .footer {
-    background: var(--text-primary);
-    color: white;
+    background: var(--footer-background); 
+    color: var(--footer-text); 
     padding: var(--spacing-3xl) 0 var(--spacing-xl);
 }
 
@@ -21,6 +21,7 @@
     font-weight: 600;
     font-size: 1.2rem;
     margin-bottom: var(--spacing-md);
+    color: var(--footer-text); 
 }
 
 .footer-logo i {
@@ -29,7 +30,7 @@
 }
 
 .footer-description {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--footer-text); 
     max-width: 300px;
     line-height: 1.6;
 }
@@ -37,6 +38,7 @@
 .footer-section h4 {
     font-family: var(--font-family-display);
     font-weight: 600;
+    color: var(--footer-text); 
     margin-bottom: var(--spacing-md);
 }
 
@@ -48,12 +50,12 @@
 .social-link {
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1); 
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--footer-text); 
     text-decoration: none;
     transition: all 0.3s ease;
 }
@@ -66,8 +68,8 @@
 .footer-bottom {
     text-align: center;
     padding-top: var(--spacing-xl);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.7);
+    border-top: 1px solid var(--navbar-border-color); 
+    color: var(--footer-text); 
 }
 
 .footer-bottom p {
