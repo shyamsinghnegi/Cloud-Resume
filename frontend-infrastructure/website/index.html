@@ -59,7 +59,7 @@
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#projects" class="nav-link">Projects</a>
                 <a href="#contact" class="nav-link">Contact</a>
-                <!-- Moved: Dark Mode Toggle Button -->
+                <!-- Dark Mode Toggle Button -->
                 <div class="dark-mode-toggle" id="dark-mode-toggle">
                     <i class="fas fa-sun" id="dark-mode-icon"></i>
                 </div>
@@ -94,7 +94,8 @@
                 <div class="hero-visual">
                     <div class="avatar-ring"></div>
                     <div class="avatar-content">
-                        <i class="fas fa-user-circle"></i>
+                        <!-- UPDATE: Replaced icon with your profile image from Cloudinary -->
+                        <img src="https://res.cloudinary.com/djh90lxc8/image/upload/v1762960838/profile_mc2olr.jpg" alt="Shyam Singh Negi" class="avatar-image">
                     </div>
                 </div>
             </div>
@@ -133,9 +134,11 @@
                 <div class="about-content">
                     <div class="about-text">
                         <p class="about-description">
-                            I'm a passionate Cloud Engineer with expertise in AWS services, full-stack development. 
-                            Currently working on the Cloud Resume to demonstrate 
-                            hands-on experience with serverless architectures, infrastructure as code, and CI/CD pipelines.
+                            <!-- UPDATE: Updated description to include Azure -->
+                            I'm a passionate Cloud Engineer with expertise in **AWS and Azure services**, as well as full-stack development. 
+                            This very resume project was built to demonstrate hands-on experience,
+                            and was **originally built on AWS before being fully migrated to Microsoft Azure**
+                            to prove multi-cloud adaptability and cost management.
                         </p>
                         <div class="about-highlights">
                             <div class="highlight-item">
@@ -143,8 +146,9 @@
                                     <i class="fas fa-cloud"></i>
                                 </div>
                                 <div class="highlight-content">
-                                    <h4>Cloud Architecture</h4>
-                                    <p>Designing scalable solutions</p>
+                                    <!-- UPDATE: Added multi-cloud -->
+                                    <h4>Multi-Cloud Architecture</h4>
+                                    <p>Designing solutions on AWS & Azure</p>
                                 </div>
                             </div>
                             <div class="highlight-item">
@@ -156,15 +160,6 @@
                                     <p>End-to-end application development</p>
                                 </div>
                             </div>
-                            <!-- <div class="highlight-item">
-                                <div class="highlight-icon">
-                                    <i class="fas fa-cogs"></i>
-                                </div>
-                                <div class="highlight-content">
-                                    <h4>DevOps Practices</h4>
-                                    <p>Automation and CI/CD pipelines</p>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -193,8 +188,15 @@
                                     <div class="skill-bar" data-level="90"></div>
                                 </div>
                             </div>
+                            <!-- UPDATE: Added Azure skills -->
                             <div class="skill-item" data-skill>
-                                <span class="skill-name">Lambda</span>
+                                <span class="skill-name">Microsoft Azure</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">Lambda / Functions</span>
                                 <div class="skill-level">
                                     <div class="skill-bar" data-level="85"></div>
                                 </div>
@@ -205,8 +207,15 @@
                                     <div class="skill-bar" data-level="80"></div>
                                 </div>
                             </div>
+                            <!-- UPDATE: Separated DynamoDB and Cosmos DB -->
                             <div class="skill-item" data-skill>
                                 <span class="skill-name">DynamoDB</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="75"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item" data-skill>
+                                <span class="skill-name">Cosmos DB</span>
                                 <div class="skill-level">
                                     <div class="skill-bar" data-level="75"></div>
                                 </div>
@@ -276,7 +285,7 @@
                                 </div>
                             </div>
                             <div class="skill-item" data-skill>
-                                <span class="skill-name">CloudFormation</span>
+                                <span class="skill-name">AWS SAM / IaC</span>
                                 <div class="skill-level">
                                     <div class="skill-bar" data-level="70"></div>
                                 </div>
@@ -309,10 +318,11 @@
                 </div>
                 <div class="card-description">
                     <ul>
-                        <li>Built serverless visitor counter using AWS Lambda, API Gateway, and DynamoDB</li>
-                        <li>Implemented Infrastructure as Code using AWS SAM templates</li>
-                        <li>Deployed static website on S3 with CloudFront CDN</li>
-                        <li>Wrote comprehensive Python tests for Lambda functions</li>
+                        <!-- UPDATE: Reworded to show migration -->
+                        <li>Built a serverless visitor counter originally on AWS (Lambda, API Gateway, DynamoDB)</li>
+                        <li>**Successfully migrated the entire application to Microsoft Azure (Functions, Cosmos DB)**</li>
+                        <li>Deployed static frontend to S3/CloudFront and then to Azure Blob Storage</li>
+                        <li>Implemented Infrastructure as Code using AWS SAM (preserved in repo)</li>
                     </ul>
                 </div>
             </div>
@@ -356,23 +366,26 @@
                             </div>
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">Cloud Resume</h3>
+                            <h3 class="project-title">Cloud Resume (AWS to Azure)</h3>
                             <p class="project-description">
-                                End-to-end serverless web application demonstrating AWS cloud skills including 
-                                Lambda functions, API Gateway, DynamoDB, S3 static hosting, CloudFront
+                                <!-- UPDATE: Reworded to tell migration story -->
+                                Serverless web app originally built on AWS (Lambda, DynamoDB)
+                                and **fully migrated to Microsoft Azure** (Functions, Cosmos DB)
+                                to demonstrate multi-cloud capability.
                             </p>
                             <div class="project-tech">
                                 <span class="tech-tag">AWS</span>
-                                <span class="tech-tag">Lambda</span>
-                                <span class="tech-tag">DynamoDB</span>
-                                <span class="tech-tag">S3</span>
+                                <span class="tech-tag">Azure</span>
+                                <span class="tech-tag">Serverless</span>
+                                <span class="tech-tag">NoSQL</span>
                             </div>
                             <div class="project-links">
                                 <a href="https://github.com/shyamsinghnegi/Cloud-Resume" class="project-link">
                                     <i class="fab fa-github"></i>
                                     <span>View Code</span>
                                 </a>
-                                <a href="https://d2e8byfxayj514.cloudfront.net/" class="project-link">
+                                <!-- UPDATE: Changed link to new Azure URL -->
+                                <a href="https://portfoliorga628.z29.web.core.windows.net/" class="project-link">
                                     <i class="fas fa-external-link-alt"></i>
                                     <span>Live Demo</span>
                                 </a>
@@ -443,6 +456,7 @@
                             <span class="education-year">2024-2026</span>
                         </div>
                     </div>
+                    <!-- UPDATE: AWS Card -->
                     <div class="certification-card">
                         <div class="cert-icon">
                             <i class="fab fa-aws"></i>
@@ -455,6 +469,22 @@
                                     <div class="progress-fill" data-progress="50"></div>
                                 </div>
                                 <span class="progress-text">50% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- UPDATE: Added new card for Azure -->
+                    <div class="certification-card">
+                        <div class="cert-icon">
+                            <i class="fab fa-microsoft"></i>
+                        </div>
+                        <div class="cert-content">
+                            <h3>Azure Fundamentals (AZ-900)</h3>
+                            <p class="cert-status">In Progress</p>
+                            <div class="cert-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-progress="30"></div> <!-- Set a different progress -->
+                                </div>
+                                <span class="progress-text">30% Complete</span>
                             </div>
                         </div>
                     </div>
@@ -495,7 +525,7 @@
                             </div>
                             <div class="contact-details">
                                 <h4>LinkedIn</h4>
-                                <p>https://www.linkedin.com/in/shyam-singh-negi-5555b3128/</p>
+                                <p>www.linkedin.com/in/shyam-singh-negi-5523awd1</p>
                             </div>
                         </div>
                         <div class="contact-item">
@@ -522,14 +552,15 @@
                             <span>Shyam Singh Negi</span>
                         </div>
                         <p class="footer-description">
-                            Built with ❤️ using AWS serverless technologies.
+                            <!-- UPDATE: Changed footer text -->
+                            Migrated with ❤️ from AWS to Azure serverless.
                         </p>
                     </div>
                     <div class="footer-links">
                         <div class="footer-section">
                             <h4>Connect</h4>
                             <div class="social-links">
-                                <a href="https://www.linkedin.com/in/shyam-singh-negi-5555b3128/" class="social-link">
+                                <a href="https://www.linkedin.com/in/shyam-singh-negi-5523awd1/" class="social-link">
                                     <i class="fab fa-linkedin"></i>
                                 </a>
                                 <a href="https://github.com/shyamsinghnegi" class="social-link">
@@ -544,7 +575,7 @@
                 </div>
                 <div class="footer-bottom">
                     <p>&copy; 2025 Shyam Singh Negi. All rights reserved.</p>
-              
+                
                 </div>
             </div>
         </footer>
