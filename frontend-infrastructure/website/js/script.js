@@ -1,7 +1,7 @@
 // Apple-Style Resume Website JavaScript
 
 // API Configuration
-const API_URL = 'https://essw5p71xj.execute-api.ap-south-1.amazonaws.com/Prod/visitor-count';
+const API_URL = 'https://portfolio-api-21-a0guc7daa4g6eabm.centralindia-01.azurewebsites.net/api/visitorCounter';
 
 // DOM Elements
 const loadingScreen = document.getElementById('loading-screen');
