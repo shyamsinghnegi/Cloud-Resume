@@ -1,589 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shyam Singh Negi - Cloud Resume</title>
-    <!-- <link rel="stylesheet" href="css/styles.css"> -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@100;200;300;400;500;600;700;800;900&family=SF+Pro+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
-        <!-- Divided CSS Files -->
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/loading.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/hero.css">
-    <link rel="stylesheet" href="css/visitor.css">
-    <link rel="stylesheet" href="css/sections_general.css">
-    <link rel="stylesheet" href="css/about.css">
-    <link rel="stylesheet" href="css/skills.css">
-    <link rel="stylesheet" href="css/experience.css">
-    <link rel="stylesheet" href="css/projects.css">
-    <link rel="stylesheet" href="css/education_cert.css">
-    <link rel="stylesheet" href="css/contact.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/utilities.css">
-    <!-- End Divided CSS Files -->
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARASAKA CORP // NODE OFFLINE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --white:  #E8E8E8;
+      --red:    #FF1111;
+      --redglow:#FF0000;
+      --darkred:#AA0000;
+      --bg:     #050505;
+      --dim:    #0D0D0D;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* scanlines overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.75) 100%);
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* top-left corner tag */
+    .corner-tag {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      font-size: 0.7rem;
+      color: var(--red);
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 8px var(--redglow);
+    }
+
+    .status-tag {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 0.7rem;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-shadow: 0 0 8px var(--redglow);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--redglow);
+      animation: blink 1.1s step-start infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* main content */
+    .container {
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      padding: 2rem;
+    }
+
+    /* bracket decoration */
+    .bracket-wrap {
+      display: inline-block;
+      position: relative;
+      padding: 0 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .bracket-wrap::before,
+    .bracket-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 10px;
+      border-top: 2px solid var(--red);
+      border-bottom: 2px solid var(--red);
+      opacity: 0.7;
+    }
+
+    .bracket-wrap::before { left: 0;  border-left:  2px solid var(--red); }
+    .bracket-wrap::after  { right: 0; border-right: 2px solid var(--red); }
+
+    .system-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      text-shadow: 0 0 10px var(--redglow);
+      animation: flicker 4s infinite;
+    }
+
+    /* glitch name */
+    .name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      position: relative;
+      color: var(--white);
+      animation: glitch-main 4s infinite;
+    }
+
+    .name::before,
+    .name::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      opacity: 0;
+    }
+
+    .name::before {
+      color: var(--red);
+      text-shadow: 0 0 12px var(--redglow);
+      animation: glitch-layer-1 4s infinite;
+    }
+
+    .name::after {
+      color: var(--darkred);
+      animation: glitch-layer-2 4s infinite;
+    }
+
+    @keyframes glitch-main {
+      0%, 80%, 100%  { transform: translate(0) skewX(0); filter: none; }
+      81%             { transform: translate(-4px, 0) skewX(-4deg); filter: blur(0.4px); }
+      83%             { transform: translate(5px, 0)  skewX(3deg); }
+      85%             { transform: translate(-2px, 0) skewX(0); filter: none; }
+      86%             { transform: translate(0); }
+      91%             { transform: translate(0) skewX(0); filter: none; }
+      92%             { transform: translate(6px, 0)  skewX(-6deg); filter: blur(0.5px); }
+      94%             { transform: translate(-6px, 0) skewX(5deg); }
+      96%             { transform: translate(3px, 0)  skewX(-2deg); filter: none; }
+      98%             { transform: translate(0); }
+    }
+
+    @keyframes glitch-layer-1 {
+      0%, 80%, 100%  { transform: translate(0); opacity: 0; }
+      81%             { transform: translate(-8px, -2px); opacity: 0.9; }
+      83%             { transform: translate(8px, 1px);   opacity: 0.9; }
+      85%             { transform: translate(-4px, 0);    opacity: 0.7; }
+      86%             { transform: translate(0); opacity: 0; }
+      91%             { transform: translate(0); opacity: 0; }
+      92%             { transform: translate(10px, -1px); opacity: 0.9; }
+      94%             { transform: translate(-10px, 2px); opacity: 0.9; }
+      96%             { transform: translate(5px, 0);     opacity: 0.6; }
+      98%             { transform: translate(0); opacity: 0; }
+    }
+
+    @keyframes glitch-layer-2 {
+      0%, 80%, 100%  { transform: translate(0); opacity: 0; }
+      82%             { transform: translate(8px, 2px);   opacity: 0.8; }
+      84%             { transform: translate(-8px, -1px); opacity: 0.8; }
+      85%             { transform: translate(3px, 0);     opacity: 0.5; }
+      86%             { transform: translate(0); opacity: 0; }
+      92%             { transform: translate(0); opacity: 0; }
+      93%             { transform: translate(-10px, 2px); opacity: 0.8; }
+      95%             { transform: translate(10px, -1px); opacity: 0.8; }
+      97%             { transform: translate(-4px, 0);    opacity: 0.5; }
+      98%             { transform: translate(0); opacity: 0; }
+    }
+
+    .role {
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      letter-spacing: 0.3em;
+      color: rgba(232, 232, 232, 0.4);
+      text-transform: uppercase;
+      margin-top: 0.6rem;
+      margin-bottom: 3rem;
+    }
+
+    /* divider line */
+    .divider {
+      width: 260px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--red), transparent);
+      margin: 0 auto 3rem;
+      opacity: 0.5;
+    }
+
+    /* message */
+    .message {
+      font-size: clamp(0.85rem, 2vw, 1.05rem);
+      line-height: 1.9;
+      color: rgba(232, 232, 232, 0.65);
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .message .highlight {
+      color: var(--red);
+      text-shadow: 0 0 10px var(--redglow);
+    }
+
+    /* typing cursor line */
+    .terminal-line {
+      font-size: 0.8rem;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 8px var(--redglow);
+      opacity: 0.9;
+    }
+
+    .cursor {
+      display: inline-block;
+      animation: blink 0.9s step-start infinite;
+    }
+
+    /* bottom bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 2.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: rgba(232, 232, 232, 0.25);
+      z-index: 10;
+    }
+
+    @keyframes flicker {
+      0%, 95%, 100% { opacity: 1; }
+      96%            { opacity: 0.2; }
+      97%            { opacity: 1; }
+      98%            { opacity: 0.4; }
+      99%            { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-content">
-            <div class="loader-logo">
-                <i class="fas fa-cloud"></i>
-            </div>
-            <h2 class="loading-title">Shyam Singh Negi</h2>
-            <p class="loading-subtitle">Cloud Engineer & Full Stack Developer</p>
-            <div class="loading-bar">
-                <div class="loading-progress" id="loading-progress"></div>
-            </div>
-            <p class="loading-text" id="loading-text">Initializing...</p>
-        </div>
-        <div class="particles-container" id="particles-container"></div>
+
+  <div class="corner-tag">ARASAKA CORP // PERSONNEL FILE // v2.0.0</div>
+
+  <div class="status-tag">
+    <span class="status-dot"></span>
+    SYSTEM OFFLINE
+  </div>
+
+  <div class="container">
+    <div class="system-label bracket-wrap">// CLASSIFIED — NODE RECONSTRUCTION IN PROGRESS //</div>
+
+    <h1 class="name" data-text="SHYAM SINGH NEGI">SHYAM SINGH NEGI</h1>
+    <p class="role">Cloud Engineer &nbsp;/&nbsp; Full Stack Developer &nbsp;/&nbsp; DevOps</p>
+
+    <div class="divider"></div>
+
+    <p class="message">
+      Personnel file offline. Grid node under reconstruction.<br>
+      Something <span class="highlight">dangerous</span> is being compiled.<br>
+      Corporate-grade. Built from scratch. Worth the wait.
+    </p>
+
+    <div class="terminal-line">
+      &gt; STAND_BY<span class="cursor">_</span>
     </div>
+  </div>
 
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-cloud"></i>
-                <span>Shyam Singh Negi</span>
-            </div>
-            <div class="nav-links">
-                <a href="#hero" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#experience" class="nav-link">Experience</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
-                <!-- Dark Mode Toggle Button -->
-                <div class="dark-mode-toggle" id="dark-mode-toggle">
-                    <i class="fas fa-sun" id="dark-mode-icon"></i>
-                </div>
-            </div>
-            <div class="nav-toggle" id="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        
-    </nav>
+  <div class="bottom-bar">
+    <span>ARASAKA NET // NODE 47-INDIA</span>
+    <span>LAT 28.6139 // LON 77.2090</span>
+    <span>EST. UPLINK: SOON™</span>
+  </div>
 
-    <!-- Main Content -->
-    <div class="main-wrapper" id="main-content">
-        <!-- Hero Section -->
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span class="hero-greeting">Hello, I'm</span>
-                        <span class="hero-name">Shyam Singh Negi</span>
-                    </h1>
-                    <p class="hero-subtitle" id="animated-tagline">
-                        Building scalable cloud solutions with modern technologies
-                    </p>
-                    <div class="hero-cta">
-                        <a href="#about" class="cta-primary">Learn More</a>
-                        <a href="#contact" class="cta-secondary">Get in Touch</a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <!-- ADD THIS WRAPPER DIV -->
-                    <div class="hero-avatar"> 
-                        <div class="avatar-ring"></div>
-                        <div class="avatar-content">
-                            <!-- UPDATE: Replaced icon with your profile image from Cloudinary -->
-                            <img src="https://res.cloudinary.com/djh90lxc8/image/upload/v1762960838/profile_mc2olr.jpg" alt="Shyam Singh Negi" class="avatar-image">
-                        </div>
-                    </div> <!-- END OF THE WRAPPER DIV -->
-                </div>
-            </div>
-            <div class="hero-scroll">
-                <div class="scroll-indicator">
-                    <span>Scroll to explore</span>
-                    <div class="scroll-arrow">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Visitor Counter
-        <section class="visitor-section">
-            <div class="container">
-                <div class="visitor-counter">
-                    <div class="visitor-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <div class="visitor-content">
-                        <span class="visitor-label">Portfolio Views</span>
-                        <span id="visitor-count" class="visitor-number">Loading...</span>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <!-- About Section -->
-        <section id="about" class="section about-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">About Me</h2>
-                    <p class="section-subtitle">Passionate about cloud technologies and innovation</p>
-                </div>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p class="about-description">
-                            <!-- UPDATE: Updated description to include Azure -->
-                            I'm a passionate Cloud Engineer with expertise in **AWS and Azure services**, as well as full-stack development. 
-                            This very resume project was built to demonstrate hands-on experience,
-                            and was **originally built on AWS before being fully migrated to Microsoft Azure**
-                            to prove multi-cloud adaptability and cost management.
-                        </p>
-                        <div class="about-highlights">
-                            <div class="highlight-item">
-                                <div class="highlight-icon">
-                                    <i class="fas fa-cloud"></i>
-                                </div>
-                                <div class="highlight-content">
-                                    <!-- UPDATE: Added multi-cloud -->
-                                    <h4>Multi-Cloud Architecture</h4>
-                                    <p>Designing solutions on AWS & Azure</p>
-                                </div>
-                            </div>
-                            <div class="highlight-item">
-                                <div class="highlight-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="highlight-content">
-                                    <h4>Full Stack Development</h4>
-                                    <p>End-to-end application development</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="section skills-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Technical Skills</h2>
-                    <p class="section-subtitle">Technologies I work with</p>
-                </div>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <div class="category-header">
-                            <div class="category-icon">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <h3>Cloud Platforms</h3>
-                        </div>
-                        <div class="skills-list">
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">AWS</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="90"></div>
-                                </div>
-                            </div>
-                            <!-- UPDATE: Added Azure skills -->
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">Microsoft Azure</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="80"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">Lambda / Functions</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="85"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">API Gateway</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="80"></div>
-                                </div>
-                            </div>
-                            <!-- UPDATE: Separated DynamoDB and Cosmos DB -->
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">DynamoDB</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="75"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">Cosmos DB</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="75"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <div class="category-header">
-                            <div class="category-icon">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <h3>Programming</h3>
-                        </div>
-                        <div class="skills-list">
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">Python</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="90"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">JavaScript</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="85"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">HTML/CSS</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="95"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">SQL</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="80"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <div class="category-header">
-                            <div class="category-icon">
-                                <i class="fas fa-tools"></i>
-                            </div>
-                            <h3>Tools & DevOps</h3>
-                        </div>
-                        <div class="skills-list">
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">Git</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="90"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">GitHub Actions</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="80"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">Docker</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="75"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item" data-skill>
-                                <span class="skill-name">AWS SAM / IaC</span>
-                                <div class="skill-level">
-                                    <div class="skill-bar" data-level="70"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="section experience-section">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Experience</h2>
-            <p class="section-subtitle">My professional journey</p>
-        </div>
-        <div class="timeline-grid"> <!-- Changed class from 'timeline' to 'timeline-grid' -->
-            <!-- Cloud Resume Challenge Project Card -->
-            <div class="timeline-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Cloud Resume</h3>
-                        <p class="card-company">Personal Project</p>
-                        <span class="card-date">2025 - Present</span>
-                    </div>
-                </div>
-                <div class="card-description">
-                    <ul>
-                        <!-- UPDATE: Reworded to show migration -->
-                        <li>Built a serverless visitor counter originally on AWS (Lambda, API Gateway, DynamoDB)</li>
-                        <li>**Successfully migrated the entire application to Microsoft Azure (Functions, Cosmos DB)**</li>
-                        <li>Deployed static frontend to S3/CloudFront and then to Azure Blob Storage</li>
-                        <li>Implemented Infrastructure as Code using AWS SAM (preserved in repo)</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Full Stack Developer Card -->
-            <div class="timeline-card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <div class="card-info">
-                        <h3>Full Stack Developer</h3>
-                        <span class="card-date">2024 - Present</span>
-                    </div>
-                </div>
-                <div class="card-description">
-                    <ul>
-                        <li>Developed and maintained web applications using modern frameworks</li>
-                        <li>Collaborated with cross-functional teams to deliver high-quality software</li>
-                        <li>Implemented responsive designs and optimized application performance</li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Add more timeline-card divs here for additional experience entries -->
-        </div>
-    </div>
-</section>
-
-<!-- Projects Section -->
-        <section id="projects" class="section projects-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Featured Projects</h2>
-                    <p class="section-subtitle">Some of my recent work</p>
-                </div>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-image">
-                            <div class="project-icon">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Cloud Resume (AWS to Azure)</h3>
-                            <p class="project-description">
-                                <!-- UPDATE: Reworded to tell migration story -->
-                                Serverless web app originally built on AWS (Lambda, DynamoDB)
-                                and **fully migrated to Microsoft Azure** (Functions, Cosmos DB)
-                                to demonstrate multi-cloud capability.
-                            </p>
-                            <div class="project-tech">
-                                <span class="tech-tag">AWS</span>
-                                <span class="tech-tag">Azure</span>
-                                <span class="tech-tag">Serverless</span>
-                                <span class="tech-tag">NoSQL</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/shyamsinghnegi/Cloud-Resume" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                    <span>View Code</span>
-                                </a>
-                                <!-- UPDATE: Changed link to new Azure URL -->
-                                <a href="https://portfoliorga628.z29.web.core.windows.net/" class="project-link">
-                                    <i class="fas fa-external-link-alt"></i>
-                                    <span>Live Demo</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- NEW PROJECT CARD ADDED BELOW -->
-                    <div class="project-card">
-                        <div class="project-image">
-                            <div class="project-icon">
-                                <i class="fas fa-landmark"></i> <!-- Icon for heritage -->
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Indian Heritage</h3>
-                            <p class="project-description">
-                                Developed and designed the front-end for a Smart India Hackathon 2023 website 
-                                using React and Tailwind CSS, with a GSAP-enhanced UI for smooth animations.
-                            </p>
-                            <div class="project-tech">
-                                <span class="tech-tag">MERN</span>
-                                <span class="tech-tag">Tailwind</span>
-                                <span class="tech-tag">GSAP</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/miranish/SIH_2023_V-STARS" class="project-link" target="_blank">
-                                    <i class="fab fa-github"></i>
-                                    <span>View Code</span>
-                                </a>
-                                <a href="https://sih-2023-v-stars.vercel.app" class="project-link" target="_blank">
-                                    <i class="fas fa-external-link-alt"></i>
-                                    <span>Live Demo</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END NEW PROJECT CARD -->
-
-                </div>
-            </div>
-        </section>
-        <!-- Education & Certifications -->
-        <section class="section education-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Education & Certifications</h2>
-                    <p class="section-subtitle">Continuous learning journey</p>
-                </div>
-                <div class="education-grid">
-                    <div class="education-card">
-                        <div class="education-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="education-content">
-                            <h3>Bachelors in Computer Application</h3>
-                            <p class="education-institution">Institute of Information Technology and Management</p>
-                            <span class="education-year">2021-2024</span>
-                        </div>
-                    </div>
-                    <div class="education-card">
-                        <div class="education-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="education-content">
-                            <h3>Masters in Computer Application</h3>
-                            <p class="education-institution">Jagan Institute of Management Studies, Rohini</p>
-                            <span class="education-year">2024-2026</span>
-                        </div>
-                    </div>
-                    <!-- UPDATE: AWS Card -->
-                    <div class="certification-card">
-                        <div class="cert-icon">
-                            <i class="fab fa-aws"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h3>AWS Cloud Practitioner</h3>
-                            <p class="cert-status">In Progress</p>
-                            <div class="cert-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" data-progress="50"></div>
-                                </div>
-                                <span class="progress-text">50% Complete</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- UPDATE: Added new card for Azure -->
-                    <div class="certification-card">
-                        <div class="cert-icon">
-                            <i class="fab fa-microsoft"></i>
-                        </div>
-                        <div class="cert-content">
-                            <h3>Azure Fundamentals (AZ-900)</h3>
-                            <p class="cert-status">In Progress</p>
-                            <div class="cert-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" data-progress="30"></div> <!-- Set a different progress -->
-                                </div>
-                                <span class="progress-text">30% Complete</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section contact-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Get in Touch</h2>
-                    <p class="section-subtitle">Let's build something amazing together</p>
-                </div>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4>Email</h4>
-                                <p>shyamsinghnegi54@gmail.com</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4>Phone</h4>
-                                <p>+91 9555918823</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fab fa-linkedin"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4>LinkedIn</h4>
-                                <p>www.linkedin.com/in/shyam-singh-negi-5523awd1</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fab fa-github"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4>GitHub</h4>
-                                <p>github.com/shyamsinghnegi</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-info">
-                        <div class="footer-logo">
-                            <i class="fas fa-cloud"></i>
-                            <span>Shyam Singh Negi</span>
-                        </div>
-                        <p class="footer-description">
-                            <!-- UPDATE: Changed footer text -->
-                            Migrated with ❤️ from AWS to Azure serverless.
-                        </p>
-                    </div>
-                    <div class="footer-links">
-                        <div class="footer-section">
-                            <h4>Connect</h4>
-                            <div class="social-links">
-                                <a href="https://www.linkedin.com/in/shyam-singh-negi-5523awd1/" class="social-link">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                                <a href="https://github.com/shyamsinghnegi" class="social-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <a href="https://mail.google.com/mail/u/1/?view=cm&fs=1&to=shyamsinghnegi54@gmail.com&tf=1" class="social-link">
-                                    <i class="fas fa-envelope"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2025 Shyam Singh Negi. All rights reserved.</p>
-                
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <script src="js/script.js"></script>
 </body>
 </html>

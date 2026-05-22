@@ -1,0 +1,36 @@
+# Claude Code
+CLAUDE.md
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Node
+node_modules/
+
+# VS Code generated
+.vscode/PythonImportHelper-v2-Completion.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / local config
+*.env
+.env*
+backend/azure-function-code/local.settings.json
+
+# JS with embedded API key
+frontend-infrastructure/website/js/script.js
+
+# AWS SAM build artifacts
+.aws-sam/
