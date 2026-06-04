@@ -1,38 +1,34 @@
-import {Rajdhani, Share_Tech_Mono } from "next/font/google"
+import { DM_Serif_Display, DM_Sans, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
-import Hud from './components/Hud'
-import BootScreen from './components/ClientBootScreen'
 
-const rajdhani = Rajdhani({
-  variable: "--font-rajdhani",
-  subsets : ['latin'],
-  weight: ['500','600','700'],
+const dmSerif = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
 })
 
-const shareTechMono = Share_Tech_Mono({
-  variable: "--font-share-tech-mono",
-  subsets : ['latin'],
-  weight: ['400'],
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
 })
 
 export const metadata = {
-  title: "SHYAM SINGH NEGI // BLACKWALL//NET",
-  description: "Cloud Engineer / Devops / Fullstack - Personnel file.",
-};
+  title: "SHYAM SINGH NEGI",
+  description: "Cloud Engineer / DevOps / Backend",
+}
 
 export default function RootLayout({ children }) {
   return (
-    <html
-    lang="en"
-    className={`${rajdhani.variable} ${shareTechMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col"> 
-        <div className="scanlines" aria-hidden="true"/>
-        <div className="vignette" aria-hidden="true"/>
-        <BootScreen/>
-        <Hud/>
-        {children}
-        </body>
+    <html lang="en" className={`${dmSerif.variable} ${dmSans.variable} ${jetbrains.variable}`}>
+      <body>{children}</body>
     </html>
-  );
+  )
 }

@@ -1,0 +1,13 @@
+export default function Contact({ onNavigate }) {
+  return (
+    <div className="placeholder stage-el">
+      <div className="ph-index">
+        <div className="rule" />
+        <span>Contact Me</span>
+      </div>
+      <h2>Let&apos;s Connect.</h2>
+      <p>Open to work. Open to collaboration.</p>
+      <p className="ph-note">Section in progress</p>
+    </div>
+  )
+}
