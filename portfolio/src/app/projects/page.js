@@ -1,12 +1,12 @@
-export default function Contact({ onNavigate }) {
+export default function ProjectsPage() {
   return (
     <div className="placeholder stage-el">
       <div className="ph-index">
         <div className="rule" />
-        <span>Contact Me</span>
+        <span>Projects</span>
       </div>
-      <h2>Let&apos;s Connect.</h2>
-      <p>Open to work. Open to collaboration.</p>
+      <h2>What I&apos;ve Built.</h2>
+      <p>Real projects. Real deployments. No tutorial apps.</p>
       <p className="ph-note">Section in progress</p>
     </div>
   )

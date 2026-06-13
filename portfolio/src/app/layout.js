@@ -1,5 +1,6 @@
 import { DM_Serif_Display, DM_Sans, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
+import TransitionLayout from "./transition-layout"
 
 const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
@@ -28,7 +29,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${dmSerif.variable} ${dmSans.variable} ${jetbrains.variable}`}>
-      <body>{children}</body>
+      <body><TransitionLayout>{children}</TransitionLayout></body>
     </html>
   )
 }

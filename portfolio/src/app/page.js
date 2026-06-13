@@ -1,55 +1,40 @@
 "use client"
-
-import { useState } from "react"
-import Home from "./components/Home"
-import About from "./components/About"
-import Projects from "./components/Projects"
-import Hobbies from "./components/Hobbies"
-import Contact from "./components/Contact"
+import { useContext } from "react"
 import Nav from "./components/Nav"
+import { NavCtx } from "./nav-context"
 
 export default function Page() {
-  const [section, setSection] = useState("home")
-  const [stageClass, setStageClass] = useState("")
-
-  const navigate = (newSection) => {
-    if (newSection === section || stageClass) return
-    setStageClass("is-exiting")
-    setTimeout(() => {
-      setSection(newSection)
-      setStageClass("is-entering")
-      setTimeout(() => setStageClass(""), 450)
-    }, 300)
-  }
-
+  const navigate = useContext(NavCtx)
   return (
-    <div className="app">
+    <div className="home">
+      <div className="hero-left">
 
-      {section === "home" && (
-        <>
-          <div className="chrome chrome--top">
-            <span className="mono">PORTFOLIO — 2026 / V1</span>
-            <span className="mono">PG.01</span>
-          </div>
-          <div className="chrome chrome--bottom">
-            <span className="mono">AVAILABLE FOR WORK — 2026</span>
-            <div className="barcode" />
-          </div>
-        </>
-      )}
+        <div className="eyebrow stage-el" style={{ '--index': 0 }}>
+          <div className="dash" />
+          <span className="num">00</span>
+          <span>— INDEX / HOME</span>
+        </div>
 
-      {section !== "home" && (
-        <Nav collapsed currentSection={section} onNavigate={navigate} />
-      )}
+        <h1 className="hero-name stage-el" style={{ '--index': 1 }}>
+          <span className="ln">Shyam</span>
+          <span className="ln">Singh Negi<span className="accent-dot">.</span></span>
+        </h1>
 
-      <div className={`stage ${stageClass}`}>
-        {section === "home"     && <Home     onNavigate={navigate} />}
-        {section === "about"    && <About    onNavigate={navigate} />}
-        {section === "projects" && <Projects onNavigate={navigate} />}
-        {section === "hobbies"  && <Hobbies  onNavigate={navigate} />}
-        {section === "contact"  && <Contact  onNavigate={navigate} />}
+        <p className="hero-desc stage-el" style={{ '--index': 2 }}>
+          Cloud &amp; DevOps engineer who builds full-stack systems and actually deploys them.
+        </p>
+
+        <div className="hero-meta stage-el" style={{ '--index': 3 }}>
+          <span><strong>CLOUD</strong> + DEVOPS</span>
+          <span className="sep">/</span>
+          <span>28°36′N 77°12′E</span>
+        </div>
+
       </div>
 
+      <div className="hero-right stage-el" style={{ '--index': 1 }}>
+        <Nav onNavigate={navigate} />
+      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-export default function Hobbies({ onNavigate }) {
+export default function HobbiesPage() {
   return (
     <div className="placeholder stage-el">
       <div className="ph-index">

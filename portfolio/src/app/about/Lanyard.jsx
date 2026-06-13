@@ -2,15 +2,13 @@
 import { useRef, useEffect, useState } from "react"
 
 export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
-  const rootRef   = useRef(null)
-  const svgRef    = useRef(null)
-  const bandRef   = useRef(null)
-  const coreRef   = useRef(null)
-  const strapLRef = useRef(null)
-  const strapRRef = useRef(null)
-  const clipRef   = useRef(null)
-  const cardRef   = useRef(null)
-  const [hint, setHint] = useState(true)
+  const rootRef = useRef(null)
+  const svgRef  = useRef(null)
+  const bandRef = useRef(null)
+  const coreRef = useRef(null)
+  const cardRef = useRef(null)
+  const [flipped,    setFlipped]    = useState(false)
+  const [clickCount, setClickCount] = useState(0)
 
   useEffect(() => {
     const root   = rootRef.current
@@ -21,7 +19,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     const GRAVITY  = reduce ? 0.14 : 0.55
     const FRICTION = 0.985
     const ITER     = 20
-    const CLIP_LEN = 12
+    const CLIP_LEN = 0
     const MAX_SPEED = 50, MIN_SPEED = 0
 
     let W = 0, H = 0, anchor = { x: 0, y: 14 }
@@ -37,6 +35,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y) }
 
     function measure() {
+      if (!root || !svgRef.current) return
       const r = root.getBoundingClientRect()
       W = r.width; H = r.height
       anchor.x = W * 0.5
@@ -102,6 +101,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
 
     let dragging = false, activeId = -1
     let grabOffset = { x: 0, y: 0 }, pointer = { x: 0, y: 0 }
+    let downX = 0, downY = 0, downT = 0
 
     function cardCenter() {
       return {
@@ -119,9 +119,9 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       dragging = true; activeId = e.pointerId
       cardEl.setPointerCapture(e.pointerId)
       pointer = toLocal(e)
+      downX = pointer.x; downY = pointer.y; downT = Date.now()
       const c = cardCenter()
       grabOffset = { x: pointer.x - c.x, y: pointer.y - c.y }
-      setHint(false)
     }
     function onMove(e) {
       if (!dragging || e.pointerId !== activeId) return
@@ -129,6 +129,15 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     }
     function onUp(e) {
       if (e.pointerId !== activeId) return
+      const p = toLocal(e)
+      const moved   = Math.hypot(p.x - downX, p.y - downY)
+      const elapsed = Date.now() - downT
+      if (moved < 8 && elapsed < 250) {
+        // only flip if the tap wasn't on the back button
+        if (!e.target.closest(".dont-click")) {
+          setFlipped(f => !f)
+        }
+      }
       dragging = false; activeId = -1
     }
 
@@ -184,18 +193,24 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     }
 
     function render() {
+      if (!bandRef.current || !cardEl) return
       const nodes = [pts[0]]
       for (let i = 1; i <= SEG; i++) nodes.push(pts[i].lerp)
-      nodes.push(tc)
+
+      // end the rope exactly where the clip sits: the card's top-edge midpoint,
+      // lifted a few px into the clip arch along the card's outward normal.
+      const c0 = corners[0], c1 = corners[1]
+      const midX = (c0.x + c1.x) / 2
+      const midY = (c0.y + c1.y) / 2
+      const ex = c1.x - c0.x, ey = c1.y - c0.y
+      const elen = Math.hypot(ex, ey) || 1
+      const ux = ey / elen, uy = -ex / elen   // unit normal, points away from card body
+      const CLIP_RISE = 12                      // nestle into the clip arch
+      nodes.push({ x: midX + ux * CLIP_RISE, y: midY + uy * CLIP_RISE })
+
       const d = smoothPath(nodes)
       bandRef.current.setAttribute("d", d)
       coreRef.current.setAttribute("d", d)
-
-      strapLRef.current.setAttribute("d",
-        `M ${pts[SEG].lerp.x.toFixed(1)} ${pts[SEG].lerp.y.toFixed(1)} L ${tc.x.toFixed(1)} ${tc.y.toFixed(1)}`)
-
-      strapRRef.current.setAttribute("d",
-        `M ${corners[0].x.toFixed(1)} ${corners[0].y.toFixed(1)} L ${corners[1].x.toFixed(1)} ${corners[1].y.toFixed(1)}`)
 
       const cx  = (corners[0].x + corners[1].x + corners[2].x + corners[3].x) / 4
       const cy  = (corners[0].y + corners[1].y + corners[2].y + corners[3].y) / 4
@@ -203,8 +218,6 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
 
       cardEl.style.transform =
         `translate(${(cx - CARD_W / 2).toFixed(1)}px, ${(cy - CARD_H / 2).toFixed(1)}px) rotate(${ang.toFixed(2)}deg)`
-      clipRef.current.style.transform =
-        `translate(${tc.x.toFixed(1)}px, ${tc.y.toFixed(1)}px) rotate(${ang.toFixed(2)}deg)`
     }
 
     let raf
@@ -237,35 +250,56 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     }
   }, [CARD_W, CARD_H])
 
+  const backLabel = ["don't click", "seriously...", "last warning", "you did this"][clickCount] ?? "you did this"
+
   return (
     <div className="lanyard" ref={rootRef}>
       <span className="pin" />
       <svg ref={svgRef} className="lanyard-svg" style={{ width: "100%", height: "100%" }}>
-        <path ref={bandRef}   className="band" />
-        <path ref={coreRef}   className="band-core" />
-        <path ref={strapLRef} className="strap" />
-        <path ref={strapRRef} className="bar" />
+        <path ref={bandRef} className="band" />
+        <path ref={coreRef} className="band-core" />
       </svg>
-      <div className="clip" ref={clipRef} />
       <div className="badge" ref={cardRef}>
-        <div className="badge-top">
-          <span>ACCESS / ENGINEERING</span>
-          <span className="id">ID·001</span>
+        <div className="clip">
+          <div className={`clip-inner${flipped ? " flipped" : ""}`}>
+            <div className="clip-front" />
+            <div className="clip-back" />
+          </div>
         </div>
-        <div className="photo">
-          <div className="ph-label">PHOTO<span>drop headshot</span></div>
+        <div className={`badge-inner${flipped ? " flipped" : ""}`}>
+
+          {/* ── Front face ── */}
+          <div className="badge-front">
+            <div className="badge-top">
+              <span>ACCESS / ENGINEERING</span>
+              <span className="id">ID·001</span>
+            </div>
+            <div className="photo">
+              <div className="ph-label">PHOTO<span>drop headshot</span></div>
+            </div>
+            <div className="badge-id">
+              <div className="name">Shyam Singh Negi</div>
+              <div className="role">Cloud · DevOps · Fullstack</div>
+            </div>
+            <div className="badge-foot">
+              <span className="bc" />
+              <span className="yr">CLR · 2026</span>
+            </div>
+          </div>
+
+          {/* ── Back face ── */}
+          <div className="badge-back">
+            <div className="back-qr" />
+            <p className="back-hint">tap card to flip back</p>
+            <button
+              className={`dont-click${clickCount >= 3 ? " boom" : ""}`}
+              onClick={() => setClickCount(c => Math.min(c + 1, 3))}
+            >
+              {backLabel}
+            </button>
+          </div>
+
         </div>
-        <div className="badge-id">
-          <div className="name">Shyam Singh Negi</div>
-          <div className="role">Cloud · DevOps · Fullstack</div>
-        </div>
-        <div className="badge-foot">
-          <span className="bc" />
-          <span className="yr">CLR · 2026</span>
-        </div>
-      </div>
-      <div className={`drag-hint${hint ? "" : " hide"}`}>
-        <span className="d" /> drag the card
       </div>
     </div>
   )
