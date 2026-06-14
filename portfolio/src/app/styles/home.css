@@ -1,0 +1,130 @@
+/* ============================================================= HOME */
+.home {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  padding: clamp(72px, 12vh, 132px) clamp(20px, 4vw, 56px) clamp(70px, 10vh, 110px);
+}
+
+.hero-left {
+  align-self: center;
+  max-width: 760px;
+  padding-right: var(--space-4);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: #6f6c64;
+  margin-bottom: clamp(12px, 2vh, 20px);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.eyebrow .num {
+  color: var(--ink-black);
+  font-weight: 600;
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--ink-black);
+  margin: 0;
+  font-weight: 600;
+}
+.hero-name .ln { display: block; }
+.hero-name .accent-dot { color: var(--muted-sage); }
+
+.hero-desc {
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  line-height: 1.6;
+  color: #45433d;
+  max-width: 46ch;
+  margin-top: clamp(14px, 4vh, 24px);
+  text-wrap: pretty;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: clamp(14px, 6vh, 24px);
+  color: #6f6c64;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hero-meta .sep { color: var(--warm-gray); }
+.hero-meta strong { color: var(--ink-black); font-weight: 600; letter-spacing: 0.06em; }
+
+/* right column holds nav (top) + lanyard hangs in the negative space */
+.hero-right {
+  position: relative;
+  height: 100%;
+}
+
+@media (max-width: 920px) {
+  /* centred, vertically balanced column (no big middle gap);
+     coords pinned to the very bottom. All sizes scale with the viewport. */
+  .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: clamp(40px, 7vh, 80px);
+    padding-bottom: 56px;          /* room for the coords line at the very bottom */
+  }
+
+  .hero-left {
+    width: 100%;
+    max-width: 560px;
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* vertical orange line on top, index text underneath */
+  .eyebrow { flex-direction: column; gap: 10px; font-size: clamp(0.62rem, 2.8vw, 0.75rem); }
+  .eyebrow .dash { width: 3px; height: 26px; }
+
+  .hero-name { font-size: clamp(2.4rem, 12.5vw, 4.2rem); }
+  .hero-desc {
+    font-size: clamp(0.92rem, 3.6vw, 1.12rem);
+    margin-left: auto; margin-right: auto;
+  }
+
+  /* the actual text links, just below the intro */
+  .hero-right {
+    display: block;
+    height: auto;
+    width: 100%;
+    margin-top: clamp(28px, 6vh, 52px);
+  }
+  .nav-expanded { position: static; align-items: center; right: auto; top: auto; }
+  .nav-expanded .nav-head { display: none; }
+  .nav-list { align-items: center; gap: 2px; }
+  .nav-link { justify-content: center; text-align: center; }
+  .nav-link .lbl { font-size: clamp(1.25rem, 5.5vw, 1.7rem); }
+
+  /* coords pinned to the very bottom */
+  .hero-meta {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: clamp(14px, 3vh, 22px);
+    margin: 0;
+    justify-content: center;
+    font-size: clamp(0.62rem, 2.6vw, 0.75rem);
+  }
+}

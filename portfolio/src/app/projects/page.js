@@ -1,3 +1,5 @@
+import "../styles/placeholder.css"
+
 export default function ProjectsPage() {
   return (
     <div className="placeholder stage-el">

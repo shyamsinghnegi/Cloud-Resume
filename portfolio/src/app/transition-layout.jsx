@@ -53,22 +53,15 @@ export default function TransitionLayout({ children }) {
 
   return (
     <NavCtx.Provider value={navigate}>
-      <div className="app">
+      <div className={`app${isHome ? " is-home" : ""}`}>
         {isHome && (
-          <>
-            {/* <div className="chrome chrome--top">
-              <span className="mono">PORTFOLIO — 2026 / V1</span>
-              <span className="mono">PG.01</span>
-            </div> */}
-            <div className="chrome chrome--bottom">
-              <span className="mono">AVAILABLE FOR WORK — 2026</span>
-              <div className="barcode" />
-            </div>
-          </>
+          <div className="chrome chrome--bottom">
+            <span className="mono">AVAILABLE FOR WORK — 2026</span>
+            <div className="barcode" />
+          </div>
         )}
-        {!isHome && (
-          <Nav collapsed currentSection={section} onNavigate={navigate} />
-        )}
+        {/* icon nav: left strip on desktop (non-home), bottom pill on mobile (all pages) */}
+        <Nav collapsed currentSection={section} onNavigate={navigate} />
         <div key={section} className={`stage ${stageClass}`}>
           {children}
         </div>

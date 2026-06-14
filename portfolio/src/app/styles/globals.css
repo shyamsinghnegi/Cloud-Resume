@@ -1,0 +1,312 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   PORTFOLIO — Global / site-wide styles only.
+   Page- and component-specific CSS lives next to each file:
+     home.css · components/Nav.css · placeholder.css
+     about/about.css · about/Lanyard.css · about/StackGraph.css
+   ========================================================================= */
+
+/* =========================================================================
+   Design Tokens — calm brutalism on a tactile canvas. Reference these
+   custom properties everywhere; do not hardcode colors elsewhere.
+   ========================================================================= */
+:root {
+  /* Colors */
+  --ink-black:    #1a1a18;
+  --warm-gray:    #d4d0c8;
+  --muted-sage:   #8fa688;
+  --canvas:       #f0ede6;
+  --canvas-deep:  #e8e3d9;
+
+  /* Accent — max once or twice per view, never together */
+  --accent-orange: #e8540a;
+  --accent-blue:   #2346c4;
+
+  /* Type Scale */
+  --text-hero:    clamp(4rem, 10vw, 9rem);
+  --text-section: clamp(2rem, 5vw, 4rem);
+  --text-body:    1rem;
+  --text-label:   0.75rem;
+
+  /* Spacing (8px base) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-12: 96px;
+
+  /* Animation */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-micro: 150ms;
+  --duration-interaction: 200ms;
+  --duration-transition: 350ms;
+  --duration-enter: 400ms;
+  --stagger-step: 60ms;
+}
+
+/* ------------------------------------------------------------------ reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+/* nudge the whole type scale down one notch (rem-based sizes shrink with this) */
+html { font-size: 93.75%; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink-black);
+  background-color: var(--canvas);
+  position: relative;
+  overflow: hidden; /* SPA: single viewport, sections manage their own scroll */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, p, ul, figure { margin: 0; }
+ul { list-style: none; padding: 0; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+img { display: block; max-width: 100%; }
+
+/* -------------------------------------------------------------- texture */
+/* Grain layer — organic uncoated-stock noise */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+
+/* Ink bleed — top-left corner, the heavier mark */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 46vw; height: 44vh;
+  background: radial-gradient(ellipse at top left, var(--ink-black), transparent 68%);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Second, lighter ink bleed — opposite corner */
+#bleed-2 {
+  content: '';
+  position: fixed;
+  bottom: -4vh; right: -4vw;
+  width: 38vw; height: 40vh;
+  background: radial-gradient(ellipse at bottom right, var(--ink-black), transparent 70%);
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root { position: relative; z-index: 2; height: 100%; }
+
+/* =========================================================================
+   Shell — app + stage. A "stage" fills the viewport; sections swap inside
+   it, and pages taller than one screen scroll within the stage.
+   ========================================================================= */
+.app { position: relative; height: 100%; width: 100%; }
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;   /* each section settles to one screen */
+}
+.stage::-webkit-scrollbar { width: 10px; }
+.stage::-webkit-scrollbar-thumb {
+  background: var(--warm-gray);
+  border: 3px solid var(--canvas);
+  border-radius: 8px;
+}
+.stage::-webkit-scrollbar-thumb:hover { background: #b9b4aa; }
+.stage { scrollbar-width: thin; scrollbar-color: var(--warm-gray) transparent; }
+/* hold state during route swap — keeps everything invisible so the
+   outgoing page can't flash back in before the new one mounts */
+.stage.is-hidden { opacity: 0; }
+
+/* ----------------------------------------------------- brutalist chrome */
+.chrome {
+  position: absolute;
+  left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 clamp(20px, 4vw, 56px);
+  color: var(--ink-black);
+  z-index: 5;
+}
+.chrome--top { top: clamp(20px, 3.4vh, 36px); justify-content: space-between; }
+.chrome--bottom { bottom: clamp(18px, 3vh, 30px); justify-content: space-between; }
+.chrome .mono { color: #6f6c64; }
+.chrome .tick { color: var(--ink-black); }
+
+.dash {
+  display: inline-block;
+  width: 34px; height: 3px;
+  background: var(--accent-orange);   /* the single orange pulse on Home */
+  vertical-align: middle;
+}
+
+/* CSS barcode — graphic object, not data */
+.barcode {
+  height: 26px;
+  width: 132px;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--ink-black) 0, var(--ink-black) 1px, transparent 1px, transparent 3px,
+      var(--ink-black) 3px, var(--ink-black) 5px, transparent 5px, transparent 6px,
+      var(--ink-black) 6px, var(--ink-black) 9px, transparent 9px, transparent 11px,
+      var(--ink-black) 11px, var(--ink-black) 12px, transparent 12px, transparent 15px);
+  opacity: 0.85;
+}
+
+/* shared mono eyebrow (about + placeholder pages) */
+.ph-index {
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted-sage); margin-bottom: 18px;
+  display:flex; align-items:center; gap: 12px;
+}
+.ph-index .rule { width: 46px; height: 1px; background: var(--warm-gray); }
+
+/* =========================================================================
+   Shared components / utilities
+   ========================================================================= */
+.btn {
+  background: var(--ink-black);
+  color: var(--canvas);
+  border: none;
+  border-radius: 4px;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background var(--duration-interaction) var(--ease-out-expo);
+  cursor: pointer;
+}
+.btn:hover { background: #333331; }
+.btn:focus-visible {
+  background: var(--canvas);
+  color: var(--ink-black);
+  outline: 2px solid var(--ink-black);
+  outline-offset: 2px;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--warm-gray);
+  color: var(--ink-black);
+  border-radius: 4px;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: border-color var(--duration-interaction) var(--ease-out-expo),
+              background var(--duration-interaction) var(--ease-out-expo);
+  cursor: pointer;
+}
+.btn-ghost:hover { border-color: var(--ink-black); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--muted-sage);
+  color: var(--canvas);
+  border-radius: 100px;
+  padding: 4px var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.06em;
+}
+
+.card {
+  background: var(--canvas-deep);
+  border: 1px solid var(--warm-gray);
+  border-radius: 8px;
+  transition: transform var(--duration-transition) var(--ease-out-expo),
+              box-shadow var(--duration-transition) var(--ease-out-expo);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(26, 26, 24, 0.08);
+}
+
+.input {
+  border: 1px solid var(--warm-gray);
+  background: var(--canvas);
+  color: var(--ink-black);
+  font-family: var(--font-body);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 4px;
+  transition: border-color var(--duration-interaction);
+}
+.input:focus { border-color: var(--ink-black); outline: none; }
+.input.error { border-color: #c0392b; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* =========================================================================
+   SPA transition + scroll reveal (used by every section via the stage)
+   ========================================================================= */
+@keyframes sectionExit {
+  to { opacity: 0; transform: translateY(-12px); }
+}
+@keyframes sectionEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stage-el { will-change: transform, opacity; }
+
+.is-exiting .stage-el {
+  animation: sectionExit var(--duration-transition) var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--index, 0) * 30ms);
+}
+.is-entering .stage-el {
+  opacity: 0;
+  animation: sectionEnter var(--duration-enter) var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--index, 0) * var(--stagger-step));
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 400ms var(--ease-out-expo),
+              transform 400ms var(--ease-out-expo);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .is-exiting .stage-el, .is-entering .stage-el {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* =========================================================================
+   Responsive — site-wide bits (page/component rules live in their files)
+   ========================================================================= */
+@media (max-width: 920px) {
+  body { overflow-y: auto; }
+  .chrome--bottom { display: none; }   /* decorative; bottom is owned by the pill nav */
+}

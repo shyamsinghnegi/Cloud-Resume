@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
+import "../styles/Nav.css"
 
 const SECTIONS = [
   { id: "about",    label: "About Me",        ix: "01" },

@@ -1,5 +1,6 @@
 "use client"
 import { useRef, useEffect, useState } from "react"
+import "../styles/Lanyard.css"
 
 export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
   const rootRef = useRef(null)

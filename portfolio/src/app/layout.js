@@ -1,5 +1,5 @@
 import { DM_Serif_Display, DM_Sans, JetBrains_Mono } from "next/font/google"
-import "./globals.css"
+import "./styles/globals.css"
 import TransitionLayout from "./transition-layout"
 
 const dmSerif = DM_Serif_Display({

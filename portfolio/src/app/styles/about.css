@@ -1,0 +1,171 @@
+/* ============================================ ABOUT — hero */
+.about-hero {
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 1fr clamp(380px, 36vw, 540px);
+  align-items: center;
+  padding-left: clamp(120px, 12vw, 180px);
+  scroll-snap-align: start;
+}
+
+.about-left {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  padding-right: var(--space-5);
+  padding-top: clamp(60px, 8vh, 100px);
+  padding-bottom: clamp(60px, 8vh, 100px);
+}
+
+.about-heading {
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  color: var(--ink-black);
+  line-height: 0.95;
+  margin-top: 18px;
+  font-weight: 400;
+}
+
+.about-bio {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.about-bio p {
+  font-family: var(--font-body);
+  color: #45433d;
+  line-height: 1.65;
+  font-size: 0.97rem;
+  max-width: 62ch;
+}
+
+.about-status {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8a877f;
+}
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--muted-sage);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(143,166,136,0.25);
+}
+
+.about-right {
+  position: relative;
+  align-self: stretch;
+  min-height: 520px;
+  height: 100%;
+}
+
+/* ---------------------------------------------- scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: clamp(20px, 4vh, 40px);
+  left: clamp(120px, 12vw, 180px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  color: #8a877f;
+  transition: opacity 400ms var(--ease-out-expo), transform 400ms var(--ease-out-expo);
+  pointer-events: none;
+}
+.scroll-cue.is-hidden { opacity: 0; transform: translateY(8px); }
+.scroll-cue-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.scroll-cue-track {
+  position: relative;
+  width: 22px; height: 34px;
+  border: 1.5px solid #b9b4aa;
+  border-radius: 12px;
+}
+.scroll-cue-track::after {
+  content: '';
+  position: absolute; left: 50%; top: 6px;
+  width: 3px; height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--ink-black);
+  animation: scrollDot 1.6s var(--ease-out-expo) infinite;
+}
+@keyframes scrollDot {
+  0%   { opacity: 0; transform: translateY(0); }
+  35%  { opacity: 1; }
+  70%  { opacity: 1; transform: translateY(12px); }
+  100% { opacity: 0; transform: translateY(12px); }
+}
+
+/* ============================================ ABOUT — stack section */
+.stack-section {
+  /* one viewport, text left + map right (mirrors the hero) */
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  /* left padding matches the hero so both sections align */
+  padding: clamp(40px, 7vh, 90px) clamp(16px, 3vw, 44px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
+  border-top: 1px solid var(--warm-gray);
+  scroll-snap-align: start;
+}
+.stack-head {
+  max-width: 44ch;
+  align-self: start;           /* sit toward the top, not vertically centred */
+}
+.stack-head .ph-index { margin-bottom: 18px; }
+.stack-head h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  color: var(--ink-black);
+  line-height: 0.98;
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+.stack-head p {
+  font-family: var(--font-body);
+  color: #45433d;
+  line-height: 1.65;
+  font-size: 0.97rem;
+  max-width: 44ch;
+}
+.stack-head p + p { margin-top: 14px; }
+
+.stack-graph-wrap {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
+}
+.stack-graph-wrap.visible { opacity: 1; transform: none; }
+
+@media (max-width: 920px) {
+  .about-hero {
+    grid-template-columns: 1fr;
+    padding-left: clamp(20px, 6vw, 40px);
+    padding-right: clamp(20px, 6vw, 40px);
+    padding-bottom: 96px;          /* clear the bottom pill nav */
+  }
+  .about-right { height: 440px; }
+  .scroll-cue { display: none; }   /* the pill nav owns the bottom on mobile */
+  .stack-section {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 20px;
+    padding-left: clamp(20px, 6vw, 40px);
+    padding-right: clamp(20px, 6vw, 40px);
+    padding-bottom: 96px;          /* clear the bottom pill nav */
+  }
+}

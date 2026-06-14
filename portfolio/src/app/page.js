@@ -2,6 +2,7 @@
 import { useContext } from "react"
 import Nav from "./components/Nav"
 import { NavCtx } from "./nav-context"
+import "./styles/home.css"
 
 export default function Page() {
   const navigate = useContext(NavCtx)
@@ -11,8 +12,7 @@ export default function Page() {
 
         <div className="eyebrow stage-el" style={{ '--index': 0 }}>
           <div className="dash" />
-          <span className="num">00</span>
-          <span>— INDEX / HOME</span>
+          <span className="eyebrow-text"><span className="num">00</span> — INDEX / HOME</span>
         </div>
 
         <h1 className="hero-name stage-el" style={{ '--index': 1 }}>
@@ -21,7 +21,8 @@ export default function Page() {
         </h1>
 
         <p className="hero-desc stage-el" style={{ '--index': 2 }}>
-          Cloud &amp; DevOps engineer who builds full-stack systems and actually deploys them.
+          Cloud &amp; DevOps engineer who builds full-stack systems and actually
+          deploys them. Based in Delhi, India.
         </p>
 
         <div className="hero-meta stage-el" style={{ '--index': 3 }}>

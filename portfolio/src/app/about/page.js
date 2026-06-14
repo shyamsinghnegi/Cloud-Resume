@@ -1,52 +1,13 @@
 "use client"
-import { useState } from "react"
 import Lanyard from "./Lanyard"
+import StackGraph from "./StackGraph"
 import ScrollCue from "../components/ScrollCue"
 import { useInView } from "../components/use-in-view"
-
-const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons"
-const logo = (slug, file) => `${DEVICON}/${slug}/${file}.svg`
-
-const GROUPS = [
-  {
-    cat: "Cloud",
-    items: [
-      { name: "AWS",   src: logo("amazonwebservices", "amazonwebservices-original-wordmark") },
-      { name: "Azure", src: logo("azure", "azure-original") },
-    ],
-  },
-  {
-    cat: "Frontend",
-    items: [
-      { name: "React",      src: logo("react", "react-original") },
-      { name: "Next.js",    src: logo("nextjs", "nextjs-original") },
-      { name: "JavaScript", src: logo("javascript", "javascript-original") },
-    ],
-  },
-  {
-    cat: "Backend",
-    items: [
-      { name: "Python",    src: logo("python", "python-original") },
-      { name: "Cosmos DB", src: logo("cosmosdb", "cosmosdb-original") },
-      { name: "DynamoDB",  src: logo("dynamodb", "dynamodb-original") },
-    ],
-  },
-  {
-    cat: "DevOps / CI",
-    items: [
-      { name: "Docker",         src: logo("docker", "docker-original") },
-      { name: "Terraform",      src: logo("terraform", "terraform-original") },
-      { name: "GitHub Actions", src: logo("githubactions", "githubactions-original") },
-      { name: "Linux",          src: logo("linux", "linux-original") },
-    ],
-  },
-]
+import "../styles/about.css"
 
 export default function AboutPage() {
   const [headRef, headIn] = useInView()
   const [gridRef, gridIn] = useInView({ rootMargin: "0px 0px -12% 0px" })
-  const [active, setActive] = useState("Frontend")
-  const activeGroup = GROUPS.find((g) => g.cat === active) ?? GROUPS[0]
 
   return (
     <>
@@ -101,36 +62,19 @@ export default function AboutPage() {
             The kit I reach for across cloud, infrastructure and the full product —
             from provisioning to shipping the frontend.
           </p>
+          <p>
+            It&apos;s grouped the way I think about a build: the cloud platforms I
+            deploy on, the languages I write in, the databases behind them, and the
+            tooling that tests, ships and runs everything.
+          </p>
+          <p>
+            Some I use every day, others on specific projects. Drag any node to move
+            it around — the map settles back on its own.
+          </p>
         </div>
 
-        <div ref={gridRef} className={`stack-ui${gridIn ? " visible" : ""}`}>
-          <div className="stack-tabs">
-            {GROUPS.map((g) => {
-              const on = g.cat === active
-              return (
-                <button
-                  key={g.cat}
-                  className={`stack-tab${on ? " active" : ""}`}
-                  onClick={() => setActive(g.cat)}
-                  disabled={on}
-                >
-                  <span>{g.cat}</span>
-                  <span className="tab-count">{String(g.items.length).padStart(2, "0")}</span>
-                </button>
-              )
-            })}
-          </div>
-
-          <div className="stack-panel">
-            <div className="stack-bubbles" key={active}>
-              {activeGroup.items.map((t, i) => (
-                <div key={t.name} className="tech-bubble" style={{ "--i": i }}>
-                  <img src={t.src} alt={`${t.name} logo`} loading="lazy" draggable={false} />
-                  <span>{t.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div ref={gridRef} className={`stack-graph-wrap${gridIn ? " visible" : ""}`}>
+          <StackGraph />
         </div>
       </section>
     </>
