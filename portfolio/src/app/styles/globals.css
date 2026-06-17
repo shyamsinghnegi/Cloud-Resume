@@ -50,7 +50,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
 /* nudge the whole type scale down one notch (rem-based sizes shrink with this) */
-html { font-size: 93.75%; }
+html { font-size: 90.75%; }
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -176,7 +176,10 @@ body::after {
   text-transform: uppercase; color: var(--muted-sage); margin-bottom: 18px;
   display:flex; align-items:center; gap: 12px;
 }
-.ph-index .rule { width: 46px; height: 1px; background: var(--warm-gray); }
+.ph-index .rule { width: 46px; height: 1px; background: var(--muted-sage); }
+
+/* small sage accent (e.g. the trailing period on a heading) — never the text itself */
+.accent-dot { color: var(--muted-sage); }
 
 /* =========================================================================
    Shared components / utilities

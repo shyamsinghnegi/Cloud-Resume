@@ -4,22 +4,22 @@ import "../styles/Lanyard.css"
 
 export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
   const rootRef = useRef(null)
-  const svgRef  = useRef(null)
+  const svgRef = useRef(null)
   const bandRef = useRef(null)
   const coreRef = useRef(null)
   const cardRef = useRef(null)
-  const [flipped,    setFlipped]    = useState(false)
+  const [flipped, setFlipped] = useState(false)
   const [clickCount, setClickCount] = useState(0)
 
   useEffect(() => {
-    const root   = rootRef.current
+    const root = rootRef.current
     const cardEl = cardRef.current
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
-    const SEG      = 8
-    const GRAVITY  = reduce ? 0.14 : 0.55
+    const SEG = 8
+    const GRAVITY = reduce ? 0.25 : 0.55
     const FRICTION = 0.985
-    const ITER     = 20
+    const ITER = 20
     const CLIP_LEN = 0
     const MAX_SPEED = 50, MIN_SPEED = 0
 
@@ -42,8 +42,8 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       anchor.x = W * 0.5
       anchor.y = 14
       ropeLen = Math.max(60, H * 0.15)
-      segLen  = ropeLen / SEG
-      svgRef.current.setAttribute("width",  W)
+      segLen = ropeLen / SEG
+      svgRef.current.setAttribute("width", W)
       svgRef.current.setAttribute("height", H)
     }
 
@@ -52,12 +52,14 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       pts = []
       for (let i = 0; i <= SEG; i++) {
         const y = anchor.y + i * segLen
-        pts.push({ x: anchor.x, y, ox: anchor.x, oy: y, pinned: i === 0,
-          lerp: { x: anchor.x, y } })
+        pts.push({
+          x: anchor.x, y, ox: anchor.x, oy: y, pinned: i === 0,
+          lerp: { x: anchor.x, y }
+        })
       }
       const end = pts[SEG]
-      const cx  = end.x
-      const cy  = end.y + CLIP_LEN + CARD_H / 2
+      const cx = end.x
+      const cy = end.y + CLIP_LEN + CARD_H / 2
       corners = [
         mk(cx - CARD_W / 2, cy - CARD_H / 2),
         mk(cx + CARD_W / 2, cy - CARD_H / 2),
@@ -84,7 +86,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
 
     function constrain(a, b, rest) {
       const dx = b.x - a.x, dy = b.y - a.y
-      const d  = Math.hypot(dx, dy) || 1e-4
+      const d = Math.hypot(dx, dy) || 1e-4
       const pct = (d - rest) / d
       const wa = a.pinned ? 0 : 1, wb = b.pinned ? 0 : 1, tw = wa + wb
       if (!tw) return
@@ -116,6 +118,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     }
     function onDown(e) {
       if (dragging) return
+      if (e.target.closest(".back-social-link")) return
       e.preventDefault()
       dragging = true; activeId = e.pointerId
       cardEl.setPointerCapture(e.pointerId)
@@ -131,7 +134,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     function onUp(e) {
       if (e.pointerId !== activeId) return
       const p = toLocal(e)
-      const moved   = Math.hypot(p.x - downX, p.y - downY)
+      const moved = Math.hypot(p.x - downX, p.y - downY)
       const elapsed = Date.now() - downT
       if (moved < 8 && elapsed < 250) {
         // only flip if the tap wasn't on the back button
@@ -142,13 +145,13 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       dragging = false; activeId = -1
     }
 
-    cardEl.addEventListener("pointerdown",   onDown)
-    cardEl.addEventListener("pointermove",   onMove)
-    cardEl.addEventListener("pointerup",     onUp)
+    cardEl.addEventListener("pointerdown", onDown)
+    cardEl.addEventListener("pointermove", onMove)
+    cardEl.addEventListener("pointerup", onUp)
     cardEl.addEventListener("pointercancel", onUp)
 
     function step(dt) {
-      for (const p of pts)     integrate(p)
+      for (const p of pts) integrate(p)
       for (const c of corners) integrate(c)
       integrate(tc)
 
@@ -213,8 +216,8 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       bandRef.current.setAttribute("d", d)
       coreRef.current.setAttribute("d", d)
 
-      const cx  = (corners[0].x + corners[1].x + corners[2].x + corners[3].x) / 4
-      const cy  = (corners[0].y + corners[1].y + corners[2].y + corners[3].y) / 4
+      const cx = (corners[0].x + corners[1].x + corners[2].x + corners[3].x) / 4
+      const cy = (corners[0].y + corners[1].y + corners[2].y + corners[3].y) / 4
       const ang = Math.atan2(corners[1].y - corners[0].y, corners[1].x - corners[0].x) * 180 / Math.PI
 
       cardEl.style.transform =
@@ -243,9 +246,9 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
 
     return () => {
       cancelAnimationFrame(raf)
-      cardEl.removeEventListener("pointerdown",   onDown)
-      cardEl.removeEventListener("pointermove",   onMove)
-      cardEl.removeEventListener("pointerup",     onUp)
+      cardEl.removeEventListener("pointerdown", onDown)
+      cardEl.removeEventListener("pointermove", onMove)
+      cardEl.removeEventListener("pointerup", onUp)
       cardEl.removeEventListener("pointercancel", onUp)
       if (ro) ro.disconnect()
     }
@@ -290,11 +293,24 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
 
           {/* ── Back face ── */}
           <div className="badge-back">
-            <div className="back-qr" />
             <p className="back-hint">tap card to flip back</p>
+            <div className="back-socials">
+              <a href="https://github.com/shyamsinghnegi" target="_blank" rel="noopener noreferrer" className="back-social-link" onClick={e => e.stopPropagation()}>
+                <svg viewBox="0 0 24 24" aria-label="GitHub"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" /></svg>
+                <span>GitHub</span>
+              </a>
+              <a href="https://linkedin.com/in/shyam-singhnegi" target="_blank" rel="noopener noreferrer" className="back-social-link" onClick={e => e.stopPropagation()}>
+                <svg viewBox="0 0 24 24" aria-label="LinkedIn"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                <span>LinkedIn</span>
+              </a>
+              <a href="mailto:shyamsinghnegi54@gmail.com" className="back-social-link" onClick={e => e.stopPropagation()}>
+                <svg viewBox="0 0 24 24" aria-label="Email"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" /></svg>
+                <span>Email</span>
+              </a>
+            </div>
             <button
               className={`dont-click${clickCount >= 3 ? " boom" : ""}`}
-              onClick={() => setClickCount(c => Math.min(c + 1, 3))}
+              onClick={e => { e.stopPropagation(); setClickCount(c => Math.min(c + 1, 3)) }}
             >
               {backLabel}
             </button>

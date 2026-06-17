@@ -108,7 +108,14 @@
 }
 .glass-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.6; }
 .glass-icon:hover { transform: translateY(-2px); background: var(--muted-sage); color: var(--canvas); border-color: var(--muted-sage); }
-.glass-icon.active { border-color: var(--ink-black); }
+/* active tab = sage fill + black outline, held fixed on hover */
+.glass-icon.active,
+.glass-icon.active:hover {
+  background: var(--muted-sage);
+  border-color: var(--ink-black);
+  color: var(--canvas);
+  transform: none;
+}
 .glass-icon .gi-tip {
   position: absolute; left: calc(100% + 20px); top: 50%;
   transform: translateY(-50%);
@@ -154,7 +161,7 @@
   .glass-icon:hover { transform: none; background: transparent; color: var(--ink-black); border-color: transparent; }
   .glass-icon.active,
   .glass-icon.active:hover {
-    background: var(--ink-black);
+    background: var(--muted-sage);
     border-color: var(--ink-black);
     color: var(--canvas);
   }

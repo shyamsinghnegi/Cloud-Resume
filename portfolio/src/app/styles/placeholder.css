@@ -17,7 +17,7 @@
 }
 .placeholder .ph-note {
   font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: #8a877f; margin-top: 30px;
+  text-transform: uppercase; color: #5e5a52; margin-top: 30px;
 }
 
 @media (max-width: 920px) {

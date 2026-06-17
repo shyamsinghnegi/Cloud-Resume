@@ -1,25 +1,75 @@
 "use client"
+import { useState, useEffect } from "react"
 import Lanyard from "./Lanyard"
 import StackGraph from "./StackGraph"
 import ScrollCue from "../components/ScrollCue"
 import { useInView } from "../components/use-in-view"
 import "../styles/about.css"
 
+// chronological background — education then current freelance work
+const PATH = [
+  {
+    period: "2021 — 2024", title: "BCA", place: "IITM, Janakpuri",
+    note: "Bachelor of Computer Applications"
+  },
+  {
+    period: "2024 — 2026", title: "MCA", place: "JIMS, Rohini Sector 5",
+    note: "Master of Computer Applications"
+  },
+  {
+    period: "2025  — now", title: "Freelance Developer", place: "Self-employed",
+    note: "Building and shipping web apps for clients — frontend, backend and the deploy.", wide: true
+  },
+]
+
+// certifications, training, research & awards — most recent first
+const CERTS = [
+  { tag: "Elite", title: "Introduction to Japanese Language & Culture", issuer: "NPTEL · IIT Kanpur", year: "2026", img: "/certs/japanese.jpg" },
+  { tag: "Award", title: "Smart India Hackathon — Project Exhibition", issuer: "IITM, GGSIPU", year: "2024", img: "/certs/best-award.jpg" },
+  { tag: "Top 10", title: "Code Blitz — Coding Contest", issuer: "Geek Room · JIMS", year: "2024", img: "/certs/code-blitz.jpg" },
+  { tag: "Training", title: "MERN Stack — Industrial Training", issuer: "InternNexus · TechIntelliverse", year: "2023", img: "/certs/mern.jpg" },
+  { tag: "Research", title: "Asteroid Search Campaign", issuer: "IASC · NASA / Pan-STARRS", year: "2022", img: "/certs/asteroid.jpg" },
+]
+
 export default function AboutPage() {
   const [headRef, headIn] = useInView()
   const [gridRef, gridIn] = useInView({ rootMargin: "0px 0px -12% 0px" })
+  const [pathHeadRef, pathHeadIn] = useInView()
+  const [pathRef, pathIn] = useInView({ rootMargin: "0px 0px -12% 0px" })
+  const [certHeadRef, certHeadIn] = useInView()
+  const [certRef, certIn] = useInView({ rootMargin: "0px 0px -12% 0px" })
+
+  // one-time hint when the certs section scrolls into view
+  const [showCertHint, setShowCertHint] = useState(false)
+  useEffect(() => {
+    if (!certIn) return
+    const raf = requestAnimationFrame(() => setShowCertHint(true))
+    const t = setTimeout(() => setShowCertHint(false), 2000)
+    return () => { cancelAnimationFrame(raf); clearTimeout(t) }
+  }, [certIn])
+
+  const [showFlipHint, setShowFlipHint] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setShowFlipHint(true), 100)
+    const t2 = setTimeout(() => setShowFlipHint(false), 3000)
+    return () => { clearTimeout(t); clearTimeout(t2) }
+  }, [])
 
   return (
     <>
       {/* ── Hero: one viewport ── */}
       <section className="about-hero stage-el">
+        <div className={`cert-hint${showFlipHint ? " show" : ""}`} role="status">
+          <span className="cert-hint-dot" />
+          Tap the card to flip it
+        </div>
         <div className="about-left">
           <div className="ph-index">
             <div className="rule" />
             <span>01 / About Me</span>
           </div>
 
-          <h2 className="about-heading">Who I Am.</h2>
+          <h2 className="about-heading">Who I Am<span className="accent-dot">.</span></h2>
 
           <div className="about-bio">
             <p>
@@ -57,7 +107,7 @@ export default function AboutPage() {
             <div className="rule" />
             <span>02 / The Stack</span>
           </div>
-          <h2>Tools I build with.</h2>
+          <h2>Tools I build with<span className="accent-dot">.</span></h2>
           <p>
             The kit I reach for across cloud, infrastructure and the full product —
             from provisioning to shipping the frontend.
@@ -76,6 +126,88 @@ export default function AboutPage() {
         <div ref={gridRef} className={`stack-graph-wrap${gridIn ? " visible" : ""}`}>
           <StackGraph />
         </div>
+
+        <ScrollCue label="Scroll — background" />
+      </section>
+
+      {/* ── Background: education + freelance, as cards ── */}
+      <section className="path-section">
+        <div
+          ref={pathHeadRef}
+          className={`path-head reveal${pathHeadIn ? " visible" : ""}`}
+        >
+          <div className="ph-index">
+            <div className="rule" />
+            <span>03 / Background</span>
+          </div>
+          <h2>The path so far<span className="accent-dot">.</span></h2>
+          <p>
+            Studied computer applications through a BCA and an MCA, while freelancing
+            on the side. The coursework gave me the fundamentals; the client work
+            taught me to ship.
+          </p>
+        </div>
+
+        <div ref={pathRef} className={`path-cards${pathIn ? " visible" : ""}`}>
+          {PATH.map((p, i) => (
+            <div
+              key={p.title}
+              className={`path-card${p.wide ? " path-card--wide" : ""}`}
+              style={{ "--i": i }}
+            >
+              <span className="path-period">{p.period}</span>
+              <h3 className="path-title">{p.title}</h3>
+              <span className="path-place">{p.place}</span>
+              <p className="path-note">{p.note}</p>
+            </div>
+          ))}
+        </div>
+
+        <ScrollCue label="Scroll — certifications" />
+      </section>
+
+      {/* ── Certifications / training / awards ── */}
+      <section className="cert-section">
+        <div
+          ref={certHeadRef}
+          className={`cert-head reveal${certHeadIn ? " visible" : ""}`}
+        >
+          <div className="ph-index">
+            <div className="rule" />
+            <span>04 / Certifications</span>
+          </div>
+          <h2>Earned along the way<span className="accent-dot">.</span></h2>
+          <p>
+            A mix of coursework, hands-on training, and one campaign with NASA&apos;s
+            asteroid search.
+          </p>
+        </div>
+
+        <div ref={certRef} className={`cert-grid${certIn ? " visible" : ""}`}>
+          {CERTS.map((c, i) => (
+            <div key={c.title} className="cert-card" style={{ "--i": i }}>
+              <span className="cert-tag">{c.tag}</span>
+              <h3 className="cert-title">{c.title}</h3>
+              <span className="cert-meta">{c.issuer} · {c.year}</span>
+
+              {/* hover the icon to peek the certificate, full size */}
+              <span className="cert-view" tabIndex={0} aria-label={`View ${c.title} certificate`}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span className="cert-preview" aria-hidden="true">
+                  <img src={c.img} alt={`${c.title} certificate`} loading="lazy" draggable={false} />
+                </span>
+              </span>
+            </div>
+          ))}
+        <div className={`cert-hint${showCertHint ? " show" : ""}`} role="status">
+          <span className="cert-hint-dot" />
+          Hover a card&apos;s eye icon to view the certificate
+        </div>
+        </div>
+
       </section>
     </>
   )
