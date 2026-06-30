@@ -1,8 +1,8 @@
-# Cloud Resume - Shyam Negi
+# Cloud portfolio - Shyam Singh Negi
 
 ## Introduction
 
-This project is a hands-on initiative designed to demonstrate proficiency in modern cloud technologies, DevOps practices, and full-stack development. It features a responsive resume website with a serverless backend for a visitor counter.
+This project is a hands-on initiative designed to demonstrate proficiency in modern cloud technologies, DevOps practices, and full-stack development. It features a responsive portfolio website with a serverless backend for a visitor counter.
 
 This project was originally built and deployed entirely on AWS. Due to account and billing issues, the entire application was successfully migrated to Microsoft Azure, demonstrating multi-cloud adaptability and cost management.
 
@@ -30,7 +30,7 @@ The original AWS infrastructure code (SAM template) and Lambda function are pres
 
 ## Key Features
 
-* **Static Website Hosting:** My resume is hosted on Azure Blob Storage, configured for static website hosting.
+* **Static Website Hosting:** My portfolio is hosted on Azure Blob Storage, configured for static website hosting.
 * **Serverless Visitor Counter:**
     * **Azure Functions:** A Python function (Consumption Plan) handles the logic for incrementing and retrieving visitor counts.
     * **Azure Cosmos DB:** A NoSQL database (on the free tier) stores and manages the visitor count.
@@ -117,7 +117,7 @@ This section describes how to deploy the new Azure version of this project.
 
 ### Backend Deployment (Serverless API)
 
-1.  **Create Cosmos DB:** In the Azure portal, create an Azure Cosmos DB account (Core SQL, Provisioned throughput, Apply Free Tier Discount). Create a database (e.g., `resumeDB`) and a container (e.g., `views`) with a partition key of `/id`.
+1.  **Create Cosmos DB:** In the Azure portal, create an Azure Cosmos DB account (Core SQL, Provisioned throughput, Apply Free Tier Discount). Create a database (e.g., `portfolioDB`) and a container (e.g., `views`) with a partition key of `/id`.
 2.  **Get Cosmos DB Keys:** From the "Keys" blade, copy the `URI` and `PRIMARY KEY`.
 3.  **Create Function App:** Create a Function App (Python, Consumption Plan).
 4.  **Set Environment Variables:** In the Function App's "Configuration", add two Application Settings:
