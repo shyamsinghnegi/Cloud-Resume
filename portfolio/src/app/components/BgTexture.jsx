@@ -51,8 +51,10 @@ export default function BgTexture() {
         speed: rand(0.25, 0.5),
         base: rand(0.5, 0.85),
         color,
+        _glow: null,
       }
     })
+    let frameCount = 0
 
     const DRIFT_PX_PER_SEC = 6
     const DRIFT_SPAN = 2
@@ -127,8 +129,10 @@ export default function BgTexture() {
     }
 
     const start = performance.now()
+    let animating = false
 
     function draw(now) {
+      frameCount++
       const t = (now - start) / 1000
       ctx.clearRect(0, 0, width, height)
       ctx.fillStyle = "#05050b"
@@ -146,6 +150,7 @@ export default function BgTexture() {
         ctx.fill()
       })
 
+      const refreshGlow = frameCount % 3 === 0
       giantStars.forEach(s => {
         const tw = 0.5 + 0.5 * Math.sin(t * s.speed + s.phase)
         const alpha = s.base * (0.7 + 0.3 * tw)
@@ -153,10 +158,13 @@ export default function BgTexture() {
         x = x * width
         const y = s.y * height
         const glowR = s.r * 5
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, glowR)
-        glow.addColorStop(0, `rgba(${s.color},${(alpha * 0.55).toFixed(3)})`)
-        glow.addColorStop(1, `rgba(${s.color},0)`)
-        ctx.fillStyle = glow
+        if (refreshGlow || !s._glow) {
+          const glow = ctx.createRadialGradient(x, y, 0, x, y, glowR)
+          glow.addColorStop(0, `rgba(${s.color},${(alpha * 0.55).toFixed(3)})`)
+          glow.addColorStop(1, `rgba(${s.color},0)`)
+          s._glow = glow
+        }
+        ctx.fillStyle = s._glow
         ctx.fillRect(x - glowR, y - glowR, glowR * 2, glowR * 2)
 
         ctx.beginPath()
@@ -263,14 +271,22 @@ export default function BgTexture() {
         })
       })
 
-      if (!reduceMotion) raf = requestAnimationFrame(draw)
+      if (animating && !reduceMotion) raf = requestAnimationFrame(draw)
     }
 
-    raf = requestAnimationFrame(draw)
-    if (reduceMotion) draw(start)
+    draw(performance.now()) // paint one static frame immediately, no blank flash
+
+    let startTimeout = null
+    if (!reduceMotion) {
+      startTimeout = setTimeout(() => {
+        animating = true
+        raf = requestAnimationFrame(draw)
+      }, 200)
+    }
 
     return () => {
       if (raf) cancelAnimationFrame(raf)
+      if (startTimeout) clearTimeout(startTimeout)
       window.removeEventListener("resize", resize)
     }
   }, [])
