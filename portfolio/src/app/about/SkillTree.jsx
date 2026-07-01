@@ -1,6 +1,5 @@
 "use client"
 import { CATS, TECH } from "./stack-data"
-import "../styles/SkillTree.css"
 
 export default function SkillTree() {
   return (

@@ -23,7 +23,7 @@ export default function ProfileCard() {
               <span className="id">ID·001</span>
             </div>
             <div className="photo">
-              <img src="/dither.png" alt="" draggable={false} />
+              <img src="/dither.png" alt="" draggable={false} fetchPriority="high" />
             </div>
             <div className="badge-id">
               <div className="name">Shyam Singh Negi</div>

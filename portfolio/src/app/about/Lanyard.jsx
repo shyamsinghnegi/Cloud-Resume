@@ -1,6 +1,5 @@
 "use client"
 import { useRef, useEffect, useState } from "react"
-import "../styles/Lanyard.css"
 
 const CARD_ASPECT = 366 / 252 // height / width, matches the original fixed 252x366 design
 const CARD_W_RATIO = 0.8      // card width as a fraction of the lanyard container width
@@ -289,7 +288,7 @@ export default function Lanyard() {
               <span className="id">ID·001</span>
             </div>
             <div className="photo">
-              <img src="/dither.png" alt="" draggable={false} />
+              <img src="/dither.png" alt="" draggable={false} fetchPriority="high" />
             </div>
             <div className="badge-id">
               <div className="name">Shyam Singh Negi</div>

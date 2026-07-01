@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./Nav.css";
 
 :root {
   --ink-black:    #f3f1fb;

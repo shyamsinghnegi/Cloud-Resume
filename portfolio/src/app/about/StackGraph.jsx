@@ -1,7 +1,6 @@
 "use client"
 import { useRef, useEffect, useMemo } from "react"
 import { CATS, TECH } from "./stack-data"
-import "../styles/StackGraph.css"
 
 function buildGraph() {
   const nodes = [{ id: "root", type: "root", label: "Stack", r: 34, fixed: true, fx: 0.5, fy: 0.5 }]

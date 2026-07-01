@@ -1,3 +1,7 @@
+@import "./Lanyard.css";
+@import "./StackGraph.css";
+@import "./SkillTree.css";
+
 .about-hero {
   position: relative;
   min-height: 100%;
