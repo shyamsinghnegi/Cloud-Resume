@@ -2,6 +2,7 @@
 import { useState, useCallback, useRef, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Nav from "./components/Nav"
+import BgTexture from "./components/BgTexture"
 import { NavCtx } from "./nav-context"
 
 const PATHS = {
@@ -53,14 +54,15 @@ export default function TransitionLayout({ children }) {
 
   return (
     <NavCtx.Provider value={navigate}>
+      <BgTexture />
       <div className={`app${isHome ? " is-home" : ""}`}>
+        <div className="bg-scrim" aria-hidden="true" />
         {isHome && (
           <div className="chrome chrome--bottom">
             <span className="mono">AVAILABLE FOR WORK — 2026</span>
             <div className="barcode" />
           </div>
         )}
-        {/* icon nav: left strip on desktop (non-home), bottom pill on mobile (all pages) */}
         <Nav collapsed currentSection={section} onNavigate={navigate} />
         <div key={section} className={`stage ${stageClass}`}>
           {children}
