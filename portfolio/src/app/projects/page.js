@@ -1,50 +1,9 @@
 "use client"
+import { useRouter } from "next/navigation"
 import { useInView } from "../components/use-in-view"
+import { useTiltGlow } from "../components/use-tilt-glow"
+import { PROJECTS } from "./data"
 import "../styles/projects.css"
-
-const PROJECTS = [
-  {
-    name: "POOF",
-    desc: "Drop a file, get a link — no sign-up, no friction. Supports multi-file uploads as a single zip link, resumable downloads via HTTP range requests, SHA-256 deduplication, malware scanning via VirusTotal, and automatic 24-hour expiry. Files go directly from your browser to Cloudflare R2 — the server never touches your bytes.",
-    tags: ["Next.js", "Vercel", "Cloudflare R2", "D1", "Upstash"],
-    status: "live",
-    live: "https://poof-file-sharing.vercel.app/",
-    gh: "https://github.com/shyamsinghnegi/POOF-File-sharing",
-    slot: "a",
-  },
-  {
-    name: "FloatChat",
-    desc: "Query and visualise ARGO ocean data in plain language — RAG pipeline over NetCDF datasets.",
-    tags: ["Python", "LLM", "RAG", "TypeScript"],
-    status: "wip",
-    gh: "https://github.com/shyamsinghnegi/FloatChat",
-    slot: "b",
-  },
-  {
-    name: "CivicRelay",
-    desc: "Report local civic issues with photo and location — routes them to the right municipal department.",
-    tags: ["Next.js", "Azure Functions", "Cosmos DB"],
-    status: "wip",
-    gh: "https://github.com/shyamsinghnegi/CivicRelay",
-    slot: "c",
-  },
-  {
-    name: "Cloud Portfolio",
-    desc: "This site — static Next.js frontend on Azure Static Web Apps, backed by Azure Functions and Cosmos DB.",
-    tags: ["Next.js", "Azure SWA", "Azure Functions", "Python"],
-    status: "wip",
-    gh: "https://github.com/shyamsinghnegi/Cloud-Portfolio",
-    slot: "d",
-  },
-  {
-    name: "Employee Leave Portal",
-    desc: "Leave management system with approval workflows and a full CI/CD pipeline.",
-    tags: ["Python", "Flask", "MySQL", "Docker", "Jenkins"],
-    status: "wip",
-    gh: "https://github.com/shyamsinghnegi/Employee_leave_portal",
-    slot: "e",
-  },
-]
 
 const GhIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -59,14 +18,32 @@ const ExtIcon = () => (
 )
 
 function ProjectCard({ p, className = "" }) {
+  const router = useRouter()
+  const tilt = useTiltGlow(3)
+
   return (
-    <div className={`bento-card bento-${p.slot} ${className}`}>
+    <div
+      className={`bento-card bento-${p.slot} ${className}`}
+      role="link"
+      tabIndex={0}
+      onClick={() => router.push(`/projects/${p.slug}`)}
+      onKeyDown={e => { if (e.key === "Enter") router.push(`/projects/${p.slug}`) }}
+      onPointerMove={tilt.onPointerMove}
+      onPointerLeave={tilt.onPointerLeave}
+    >
+      <div className="bento-glow" aria-hidden="true" />
       <div className="bento-row">
         <span className={`proj-status${p.status === "wip" ? " wip" : ""}`}>
           <span className="proj-status-dot" />
           {p.status === "live" ? "Live" : "In progress"}
         </span>
-        <a href={p.gh} target="_blank" rel="noopener noreferrer" className="proj-gh-link">
+        <a
+          href={p.gh}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="proj-gh-link"
+          onClick={e => e.stopPropagation()}
+        >
           <GhIcon />
         </a>
       </div>
@@ -76,7 +53,13 @@ function ProjectCard({ p, className = "" }) {
         {p.tags.map(t => <span key={t} className="proj-tag">{t}</span>)}
       </div>
       {p.live && (
-        <a href={p.live} target="_blank" rel="noopener noreferrer" className="bento-cta">
+        <a
+          href={p.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bento-cta"
+          onClick={e => e.stopPropagation()}
+        >
           View project <ExtIcon />
         </a>
       )}

@@ -14,7 +14,14 @@ const PATHS = {
 }
 
 function pathToSection(p) {
-  return Object.entries(PATHS).find(([, v]) => v === p)?.[0] ?? "home"
+  const exact = Object.entries(PATHS).find(([, v]) => v === p)?.[0]
+  if (exact) return exact
+  const [, top] = p.split("/")
+  return Object.keys(PATHS).includes(top) ? top : "home"
+}
+
+function isProjectDetail(p) {
+  return /^\/projects\/[^/]+/.test(p)
 }
 
 export default function TransitionLayout({ children }) {
@@ -51,19 +58,20 @@ export default function TransitionLayout({ children }) {
   }, [pathname])
 
   const isHome = section === "home"
+  const isDetail = isProjectDetail(pathname)
 
   return (
     <NavCtx.Provider value={navigate}>
-      <BgTexture />
-      <div className={`app${isHome ? " is-home" : ""}`}>
-        <div className="bg-scrim" aria-hidden="true" />
+      {!isDetail && <BgTexture />}
+      <div className={`app${isHome ? " is-home" : ""}${isDetail ? " is-project-detail" : ""}`}>
+        {!isDetail && <div className="bg-scrim" aria-hidden="true" />}
         {isHome && (
           <div className="chrome chrome--bottom">
             <span className="mono">AVAILABLE FOR WORK — 2026</span>
             <div className="barcode" />
           </div>
         )}
-        <Nav collapsed currentSection={section} onNavigate={navigate} />
+        {!isDetail && <Nav collapsed currentSection={section} onNavigate={navigate} />}
         <div key={section} className={`stage ${stageClass}`}>
           {children}
         </div>
