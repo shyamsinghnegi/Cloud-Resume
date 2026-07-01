@@ -40,7 +40,6 @@ export default function Nav({ onNavigate, collapsed = false, currentSection = "h
     return (
       <nav className="nav-expanded">
         <div className="nav-head">
-          <div className="rule" />
           <span className="mono">Navigation — 04</span>
         </div>
         <ul className="nav-list">
@@ -65,6 +64,8 @@ export default function Nav({ onNavigate, collapsed = false, currentSection = "h
           key={s.id}
           className={`glass-icon ${currentSection === s.id ? "active" : ""}`}
           onClick={() => onNavigate(s.id)}
+          aria-label={s.label}
+          aria-current={currentSection === s.id ? "page" : undefined}
         >
           {s.icon}
         </button>

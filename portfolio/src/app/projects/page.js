@@ -92,7 +92,6 @@ export default function ProjectsPage() {
     <section className="proj-section stage-el">
       <div ref={headRef} className={`proj-head reveal${headIn ? " visible" : ""}`}>
         <div className="ph-index">
-          <div className="rule" />
           <span>03 / Projects</span>
         </div>
         <h2>What I&apos;ve built<span className="accent-dot">.</span></h2>

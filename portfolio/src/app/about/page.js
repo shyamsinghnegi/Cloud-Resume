@@ -61,7 +61,6 @@ export default function AboutPage() {
         </div>
         <div className="about-left">
           <div className="ph-index">
-            <div className="rule" />
             <span>01 / About Me</span>
           </div>
 
@@ -99,7 +98,6 @@ export default function AboutPage() {
           className={`stack-head reveal${headIn ? " visible" : ""}`}
         >
           <div className="ph-index">
-            <div className="rule" />
             <span>02 / The Stack</span>
           </div>
           <h2>Tools I build with<span className="accent-dot">.</span></h2>
@@ -131,7 +129,6 @@ export default function AboutPage() {
           className={`path-head reveal${pathHeadIn ? " visible" : ""}`}
         >
           <div className="ph-index">
-            <div className="rule" />
             <span>03 / Background</span>
           </div>
           <h2>The path so far<span className="accent-dot">.</span></h2>
@@ -166,7 +163,6 @@ export default function AboutPage() {
           className={`cert-head reveal${certHeadIn ? " visible" : ""}`}
         >
           <div className="ph-index">
-            <div className="rule" />
             <span>04 / Certifications</span>
           </div>
           <h2>Earned along the way<span className="accent-dot">.</span></h2>

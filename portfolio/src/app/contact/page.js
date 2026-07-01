@@ -4,7 +4,6 @@ export default function ContactPage() {
   return (
     <div className="placeholder stage-el">
       <div className="ph-index">
-        <div className="rule" />
         <span>Contact Me</span>
       </div>
       <h2>Let&apos;s Connect.</h2>

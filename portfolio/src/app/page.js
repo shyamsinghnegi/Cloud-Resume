@@ -11,7 +11,6 @@ export default function Page() {
       <div className="hero-left">
 
         <div className="eyebrow stage-el" style={{ '--index': 0 }}>
-          <div className="dash" />
           <span className="eyebrow-text"><span className="num">00</span> — INDEX / HOME</span>
         </div>
 

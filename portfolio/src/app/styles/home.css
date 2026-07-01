@@ -92,7 +92,6 @@
   }
 
   .eyebrow { flex-direction: column; gap: 10px; font-size: clamp(0.62rem, 2.8vw, 0.75rem); }
-  .eyebrow .dash { width: 3px; height: 26px; }
 
   .hero-name { font-size: clamp(2.4rem, 12.5vw, 4.2rem); }
   .hero-desc {

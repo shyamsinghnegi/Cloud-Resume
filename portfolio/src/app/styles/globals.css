@@ -66,7 +66,6 @@ img { display: block; max-width: 100%; }
   background: rgba(4, 4, 9, 0.55);
   transition: background 300ms var(--ease-out-expo);
 }
-.app.is-home .bg-scrim { background: transparent; }
 
 #root { position: relative; z-index: 2; height: 100%; }
 
@@ -107,13 +106,6 @@ img { display: block; max-width: 100%; }
 .chrome .mono { color: var(--text-muted); }
 .chrome .tick { color: var(--ink-black); }
 
-.dash {
-  display: inline-block;
-  width: 34px; height: 3px;
-  background: var(--accent-gold);
-  vertical-align: middle;
-}
-
 .barcode {
   height: 26px;
   width: 132px;
@@ -131,7 +123,6 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase; color: var(--accent-gold); margin-bottom: 18px;
   display:flex; align-items:center; gap: 12px;
 }
-.ph-index .rule { width: 46px; height: 1px; background: var(--accent-gold); }
 
 .accent-dot { color: var(--accent-gold); }
 
