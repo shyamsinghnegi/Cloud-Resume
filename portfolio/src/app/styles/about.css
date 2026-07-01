@@ -285,10 +285,72 @@
   -webkit-backdrop-filter: blur(14px);
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.55s var(--ease-out-expo), transform 0.55s var(--ease-out-expo);
+  transition: opacity 0.55s var(--ease-out-expo), transform 0.55s var(--ease-out-expo),
+              border-color 0.2s var(--ease-out-expo);
   transition-delay: calc(var(--i, 0) * 70ms);
+  --mx: 50%;
+  --my: 50%;
 }
-.cert-grid.visible .cert-card { opacity: 1; transform: none; }
+.cert-grid.visible .cert-card {
+  opacity: 1;
+  transform: none;
+}
+.cert-card:hover,
+.cert-card:focus-within {
+  border-color: var(--accent-blue);
+}
+
+.cert-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease-out-expo);
+  background: radial-gradient(320px circle at var(--mx) var(--my), rgba(123, 127, 245, 0.18), transparent 65%);
+  z-index: 0;
+}
+.cert-card:hover .cert-glow,
+.cert-card:focus-within .cert-glow { opacity: 1; }
+
+.cert-dither {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 46%;
+  height: 70%;
+  object-fit: cover;
+  object-position: top left;
+  opacity: 0.1;
+  mix-blend-mode: luminosity;
+  -webkit-mask-image: linear-gradient(to left, #000 30%, transparent 100%);
+  mask-image: linear-gradient(to left, #000 30%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cert-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease-out-expo);
+  background: radial-gradient(220px circle at var(--mx) var(--my), var(--accent-blue), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
+}
+.cert-card:hover::after,
+.cert-card:focus-within::after { opacity: 0.7; }
+
+.cert-card > *:not(.cert-glow):not(.cert-dither) { z-index: 2; }
+.cert-card > .cert-tag,
+.cert-card > .cert-title,
+.cert-card > .cert-meta { position: relative; }
 
 .cert-tag {
   align-self: flex-start;
@@ -339,22 +401,32 @@
 .cert-view:focus-visible { border-color: var(--accent-gold); color: var(--accent-gold); }
 .cert-view svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.7; }
 
-.cert-preview {
+.cert-preview-overlay {
   position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(0.96);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 4, 9, 0.75);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease-out-expo);
+  z-index: 60;
+}
+.cert-preview-overlay.show { opacity: 1; }
+.cert-preview-overlay.interactive.show { pointer-events: auto; }
+
+.cert-preview {
+  transform: scale(0.96);
   width: min(650px, 88vw);
   max-height: 86vh;
-  padding: 0px;
   background: var(--canvas);
   border: 2px solid var(--ink-black);
   border-radius: 5px;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s var(--ease-out-expo), transform 0.2s var(--ease-out-expo);
-  z-index: 60;
+  transition: transform 0.2s var(--ease-out-expo);
 }
+.cert-preview-overlay.show .cert-preview { transform: scale(1); }
 .cert-preview img {
   display: block;
   width: 100%;
@@ -362,12 +434,6 @@
   object-fit: contain;
   border-radius: 4px;
 }
-.cert-view:hover .cert-preview,
-.cert-view:focus-visible .cert-preview {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
 .cert-hint {
   position: fixed;
   top: clamp(18px, 4vh, 32px);
@@ -465,5 +531,5 @@
   .cert-card:nth-child(5) { grid-column: 1; }
   .cert-preview { width: 92vw; max-height: 78vh; }
   .cert-preview img { max-height: calc(78vh - 20px); }
-  .cert-hint { display: none; }
+  .cert-view { width: 40px; height: 40px; }
 }

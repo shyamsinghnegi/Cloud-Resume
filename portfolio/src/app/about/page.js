@@ -4,8 +4,10 @@ import Lanyard from "./Lanyard"
 import ProfileCard from "./ProfileCard"
 import StackGraph from "./StackGraph"
 import SkillTree from "./SkillTree"
+import CertPreview from "./CertPreview"
 import ScrollCue from "../components/ScrollCue"
 import { useInView } from "../components/use-in-view"
+import { useTiltGlow } from "../components/use-tilt-glow"
 import "../styles/about.css"
 
 function useIsMobile(breakpoint = 920) {
@@ -44,6 +46,65 @@ const CERTS = [
   { tag: "Training", title: "MERN Stack — Industrial Training", issuer: "InternNexus · TechIntelliverse", year: "2023", img: "/certs/mern.jpg" },
   { tag: "Research", title: "Asteroid Search Campaign", issuer: "IASC · NASA / Pan-STARRS", year: "2022", img: "/certs/asteroid.jpg" },
 ]
+
+function CertCard({ c, i, isMobile }) {
+  const tilt = useTiltGlow(3)
+  const [previewOpen, setPreviewOpen] = useState(false)
+
+  function onEyeClick(e) {
+    e.stopPropagation()
+    if (!isMobile) return
+    setPreviewOpen(v => !v)
+  }
+  function onEyeMouseEnter() {
+    if (isMobile) return
+    setPreviewOpen(true)
+  }
+  function onEyeMouseLeave() {
+    if (isMobile) return
+    setPreviewOpen(false)
+  }
+
+  return (
+    <div
+      className="cert-card"
+      style={{ "--i": i }}
+      onPointerMove={tilt.onPointerMove}
+      onPointerLeave={tilt.onPointerLeave}
+    >
+      <div className="cert-glow" aria-hidden="true" />
+      <img className="cert-dither" src="/dither.png" alt="" aria-hidden="true" draggable={false} />
+      <span className="cert-tag">{c.tag}</span>
+      <h3 className="cert-title">{c.title}</h3>
+      <span className="cert-meta">{c.issuer} · {c.year}</span>
+
+      <span
+        className="cert-view"
+        tabIndex={0}
+        role="button"
+        aria-label={`View ${c.title} certificate`}
+        onMouseEnter={onEyeMouseEnter}
+        onMouseLeave={onEyeMouseLeave}
+        onFocus={onEyeMouseEnter}
+        onBlur={onEyeMouseLeave}
+        onClick={onEyeClick}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      </span>
+
+      <CertPreview
+        open={previewOpen}
+        onClose={() => setPreviewOpen(false)}
+        img={c.img}
+        title={c.title}
+        isMobile={isMobile}
+      />
+    </div>
+  )
+}
 
 export default function AboutPage() {
   const [isMobile, mobileResolved] = useIsMobile()
@@ -197,25 +258,11 @@ export default function AboutPage() {
 
         <div ref={certRef} className={`cert-grid${certIn ? " visible" : ""}`}>
           {CERTS.map((c, i) => (
-            <div key={c.title} className="cert-card" style={{ "--i": i }}>
-              <span className="cert-tag">{c.tag}</span>
-              <h3 className="cert-title">{c.title}</h3>
-              <span className="cert-meta">{c.issuer} · {c.year}</span>
-
-              <span className="cert-view" tabIndex={0} aria-label={`View ${c.title} certificate`}>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-                <span className="cert-preview" aria-hidden="true">
-                  <img src={c.img} alt={`${c.title} certificate`} loading="lazy" draggable={false} />
-                </span>
-              </span>
-            </div>
+            <CertCard key={c.title} c={c} i={i} isMobile={isMobile} />
           ))}
         <div className={`cert-hint${showCertHint ? " show" : ""}`} role="status">
           <span className="cert-hint-dot" />
-          Hover a card&apos;s eye icon to view the certificate
+          {isMobile ? "Tap a card to view the certificate" : "Hover a card to view the certificate"}
         </div>
         </div>
 
