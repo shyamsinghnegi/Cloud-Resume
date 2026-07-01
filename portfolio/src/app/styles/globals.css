@@ -1,35 +1,28 @@
 @import "tailwindcss";
 
-/* =========================================================================
-   PORTFOLIO — Global / site-wide styles only.
-   Page- and component-specific CSS lives next to each file:
-     home.css · components/Nav.css · placeholder.css
-     about/about.css · about/Lanyard.css · about/StackGraph.css
-   ========================================================================= */
-
-/* =========================================================================
-   Design Tokens — calm brutalism on a tactile canvas. Reference these
-   custom properties everywhere; do not hardcode colors elsewhere.
-   ========================================================================= */
 :root {
-  /* Colors */
-  --ink-black:    #1a1a18;
-  --warm-gray:    #d4d0c8;
-  --muted-sage:   #8fa688;
-  --canvas:       #f0ede6;
-  --canvas-deep:  #e8e3d9;
+  --ink-black:    #f3f1fb;
+  --warm-gray:    #4a4766;
+  --muted-sage:   #a5a8f5;
+  --canvas:       #05050b;
+  --canvas-deep:  #0d0c16;
 
-  /* Accent — max once or twice per view, never together */
-  --accent-orange: #e8540a;
-  --accent-blue:   #2346c4;
+  --panel:        rgba(13, 12, 22, 0.86);
+  --panel-solid:  rgba(13, 12, 22, 0.95);
 
-  /* Type Scale */
+  --accent-orange: #ec8fc2;
+  --accent-gold:   #b9a6ff;
+  --accent-blue:   #7b7ff5;
+  --accent-navy:   #7b7ff5;
+
+  --text-muted:   #a8a4c2;
+  --text-faint:   #726e8c;
+
   --text-hero:    clamp(4rem, 10vw, 9rem);
   --text-section: clamp(2rem, 5vw, 4rem);
   --text-body:    1rem;
   --text-label:   0.75rem;
 
-  /* Spacing (8px base) */
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
@@ -37,7 +30,6 @@
   --space-6: 48px;
   --space-12: 96px;
 
-  /* Animation */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-micro: 150ms;
   --duration-interaction: 200ms;
@@ -46,18 +38,16 @@
   --stagger-step: 60ms;
 }
 
-/* ------------------------------------------------------------------ reset */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
-/* nudge the whole type scale down one notch (rem-based sizes shrink with this) */
-html { font-size: 90.75%; }
+html { font-size: 100%; }
 body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink-black);
   background-color: var(--canvas);
   position: relative;
-  overflow: hidden; /* SPA: single viewport, sections manage their own scroll */
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -68,59 +58,29 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 img { display: block; max-width: 100%; }
 
-/* -------------------------------------------------------------- texture */
-/* Grain layer — organic uncoated-stock noise */
-body::before {
-  content: '';
+.bg-scrim {
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.04;
-  pointer-events: none;
   z-index: 1;
-  mix-blend-mode: multiply;
-}
-
-/* Ink bleed — top-left corner, the heavier mark */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0; left: 0;
-  width: 46vw; height: 44vh;
-  background: radial-gradient(ellipse at top left, var(--ink-black), transparent 68%);
-  opacity: 0.07;
   pointer-events: none;
-  z-index: 0;
+  background: rgba(4, 4, 9, 0.55);
+  transition: background 300ms var(--ease-out-expo);
 }
-
-/* Second, lighter ink bleed — opposite corner */
-#bleed-2 {
-  content: '';
-  position: fixed;
-  bottom: -4vh; right: -4vw;
-  width: 38vw; height: 40vh;
-  background: radial-gradient(ellipse at bottom right, var(--ink-black), transparent 70%);
-  opacity: 0.045;
-  pointer-events: none;
-  z-index: 0;
-}
+.app.is-home .bg-scrim { background: transparent; }
 
 #root { position: relative; z-index: 2; height: 100%; }
 
-/* =========================================================================
-   Shell — app + stage. A "stage" fills the viewport; sections swap inside
-   it, and pages taller than one screen scroll within the stage.
-   ========================================================================= */
 .app { position: relative; height: 100%; width: 100%; }
 
 .stage {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: block;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;   /* each section settles to one screen */
+  scroll-snap-type: y proximity;
 }
 .stage::-webkit-scrollbar { width: 10px; }
 .stage::-webkit-scrollbar-thumb {
@@ -128,13 +88,10 @@ body::after {
   border: 3px solid var(--canvas);
   border-radius: 8px;
 }
-.stage::-webkit-scrollbar-thumb:hover { background: #b9b4aa; }
+.stage::-webkit-scrollbar-thumb:hover { background: #5f5a82; }
 .stage { scrollbar-width: thin; scrollbar-color: var(--warm-gray) transparent; }
-/* hold state during route swap — keeps everything invisible so the
-   outgoing page can't flash back in before the new one mounts */
 .stage.is-hidden { opacity: 0; }
 
-/* ----------------------------------------------------- brutalist chrome */
 .chrome {
   position: absolute;
   left: 0; right: 0;
@@ -147,17 +104,16 @@ body::after {
 }
 .chrome--top { top: clamp(20px, 3.4vh, 36px); justify-content: space-between; }
 .chrome--bottom { bottom: clamp(18px, 3vh, 30px); justify-content: space-between; }
-.chrome .mono { color: #6f6c64; }
+.chrome .mono { color: var(--text-muted); }
 .chrome .tick { color: var(--ink-black); }
 
 .dash {
   display: inline-block;
   width: 34px; height: 3px;
-  background: var(--accent-orange);   /* the single orange pulse on Home */
+  background: var(--accent-gold);
   vertical-align: middle;
 }
 
-/* CSS barcode — graphic object, not data */
 .barcode {
   height: 26px;
   width: 132px;
@@ -170,20 +126,15 @@ body::after {
   opacity: 0.85;
 }
 
-/* shared mono eyebrow (about + placeholder pages) */
 .ph-index {
   font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--muted-sage); margin-bottom: 18px;
+  text-transform: uppercase; color: var(--accent-gold); margin-bottom: 18px;
   display:flex; align-items:center; gap: 12px;
 }
-.ph-index .rule { width: 46px; height: 1px; background: var(--muted-sage); }
+.ph-index .rule { width: 46px; height: 1px; background: var(--accent-gold); }
 
-/* small sage accent (e.g. the trailing period on a heading) — never the text itself */
-.accent-dot { color: var(--muted-sage); }
+.accent-dot { color: var(--accent-gold); }
 
-/* =========================================================================
-   Shared components / utilities
-   ========================================================================= */
 .btn {
   background: var(--ink-black);
   color: var(--canvas);
@@ -198,7 +149,7 @@ body::after {
   transition: background var(--duration-interaction) var(--ease-out-expo);
   cursor: pointer;
 }
-.btn:hover { background: #333331; }
+.btn:hover { background: var(--accent-blue); }
 .btn:focus-visible {
   background: var(--canvas);
   color: var(--ink-black);
@@ -226,7 +177,7 @@ body::after {
 .chip {
   display: inline-flex;
   align-items: center;
-  background: var(--muted-sage);
+  background: var(--accent-orange);
   color: var(--canvas);
   border-radius: 100px;
   padding: 4px var(--space-2);
@@ -236,7 +187,9 @@ body::after {
 }
 
 .card {
-  background: var(--canvas-deep);
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--warm-gray);
   border-radius: 8px;
   transition: transform var(--duration-transition) var(--ease-out-expo),
@@ -244,7 +197,7 @@ body::after {
 }
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(26, 26, 24, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
 .input {
@@ -257,7 +210,7 @@ body::after {
   transition: border-color var(--duration-interaction);
 }
 .input:focus { border-color: var(--ink-black); outline: none; }
-.input.error { border-color: #c0392b; }
+.input.error { border-color: #ff6b8a; }
 
 .mono {
   font-family: var(--font-mono);
@@ -266,9 +219,6 @@ body::after {
   text-transform: uppercase;
 }
 
-/* =========================================================================
-   SPA transition + scroll reveal (used by every section via the stage)
-   ========================================================================= */
 @keyframes sectionExit {
   to { opacity: 0; transform: translateY(-12px); }
 }
@@ -306,10 +256,7 @@ body::after {
   .reveal { opacity: 1; transform: none; }
 }
 
-/* =========================================================================
-   Responsive — site-wide bits (page/component rules live in their files)
-   ========================================================================= */
 @media (max-width: 920px) {
   body { overflow-y: auto; }
-  .chrome--bottom { display: none; }   /* decorative; bottom is owned by the pill nav */
+  .chrome--bottom { display: none; }
 }

@@ -1,4 +1,3 @@
-/* ============================================================= NAV */
 .nav-expanded {
   position: absolute;
   top: clamp(40px, 9vh, 96px);
@@ -12,7 +11,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #6f6c64;
+  color: var(--text-muted);
   margin-bottom: var(--space-3);
 }
 .nav-expanded .nav-head .rule {
@@ -53,7 +52,7 @@
   left: 0; right: 100%;
   bottom: -3px;
   height: 2px;
-  background: var(--muted-sage);
+  background: var(--accent-gold);
   transition: right var(--duration-transition) var(--ease-out-expo);
 }
 .nav-link .arr {
@@ -70,7 +69,6 @@
 .nav-link:hover .lbl::after { right: 0; }
 .nav-link:hover .arr { opacity: 1; transform: translateX(0); color: var(--ink-black); }
 
-/* collapsed icon strip (section state) — the signature transformation */
 .nav-collapsed {
   position: fixed;
   left: 0; top: 0; bottom: 0;
@@ -82,7 +80,7 @@
   padding: var(--space-3) 0;
   z-index: 20;
   border-right: 1px solid var(--warm-gray);
-  background: linear-gradient(90deg, rgba(232,227,217,0.6), transparent);
+  background: linear-gradient(90deg, rgba(10,10,20,0.85), transparent);
   transform: translateX(-100%);
   opacity: 0;
   transition: transform var(--duration-transition) var(--ease-out-expo),
@@ -98,7 +96,7 @@
   place-items: center;
   border-radius: 12px;
   border: 1px solid var(--warm-gray);
-  background: rgba(240,237,230,0.5);
+  background: rgba(20,19,31,0.7);
   backdrop-filter: blur(6px);
   color: var(--ink-black);
   cursor: pointer;
@@ -107,12 +105,11 @@
               border-color var(--duration-interaction) var(--ease-out-expo);
 }
 .glass-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.6; }
-.glass-icon:hover { transform: translateY(-2px); background: var(--muted-sage); color: var(--canvas); border-color: var(--muted-sage); }
-/* active tab = sage fill + black outline, held fixed on hover */
+.glass-icon:hover { transform: translateY(-2px); background: var(--accent-orange); color: var(--canvas); border-color: var(--accent-orange); }
 .glass-icon.active,
 .glass-icon.active:hover {
-  background: var(--muted-sage);
-  border-color: var(--ink-black);
+  background: var(--accent-orange);
+  border-color: var(--accent-gold);
   color: var(--canvas);
   transform: none;
 }
@@ -120,18 +117,18 @@
   position: absolute; left: calc(100% + 20px); top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
-  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.1em;
+  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--ink-black);
+  background: var(--canvas-deep);
+  padding: 4px 8px;
+  border-radius: 4px;
   opacity: 0; pointer-events: none;
   transition: opacity var(--duration-interaction);
 }
 .glass-icon:hover .gi-tip { opacity: 1; }
 
-/* home never uses the icon nav — it shows the expanded text links
-   (right column on desktop, bottom-centre on mobile) */
 .is-home .nav-collapsed { display: none; }
 
-/* mobile: non-home pages get the fixed bottom pill */
 @media (max-width: 920px) {
   .nav-collapsed {
     flex-direction: row;
@@ -145,9 +142,9 @@
     padding: 7px 9px;
     border: 1px solid var(--warm-gray);
     border-radius: 999px;
-    background: rgba(240, 237, 230, 0.9);
+    background: rgba(14, 13, 22, 0.92);
     backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(26, 26, 24, 0.14);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   }
   .nav-collapsed.show { transform: translateX(-50%); }
 
@@ -161,8 +158,8 @@
   .glass-icon:hover { transform: none; background: transparent; color: var(--ink-black); border-color: transparent; }
   .glass-icon.active,
   .glass-icon.active:hover {
-    background: var(--muted-sage);
-    border-color: var(--ink-black);
+    background: var(--accent-orange);
+    border-color: var(--accent-gold);
     color: var(--canvas);
   }
 }

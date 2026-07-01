@@ -1,4 +1,3 @@
-/* ============================================ PLACEHOLDER (non-home) */
 .placeholder {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; justify-content: center;
@@ -12,18 +11,18 @@
   line-height: 0.95;
 }
 .placeholder p {
-  font-family: var(--font-body); color: #45433d; max-width: 44ch;
+  font-family: var(--font-body); color: var(--text-muted); max-width: 44ch;
   margin-top: 20px; line-height: 1.6;
 }
 .placeholder .ph-note {
-  font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: #5e5a52; margin-top: 30px;
+  font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-faint); margin-top: 30px;
 }
 
 @media (max-width: 920px) {
   .placeholder {
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;          /* clear the bottom pill nav */
+    padding-bottom: 96px;
   }
 }

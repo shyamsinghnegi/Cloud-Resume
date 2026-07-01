@@ -1,4 +1,3 @@
-/* ============================================ ABOUT — hero */
 .about-hero {
   position: relative;
   min-height: 100%;
@@ -35,7 +34,7 @@
 }
 .about-bio p {
   font-family: var(--font-body);
-  color: #45433d;
+  color: var(--text-muted);
   line-height: 1.65;
   font-size: 0.97rem;
   max-width: 62ch;
@@ -47,17 +46,17 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.76rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #5e5a52;
+  color: var(--text-muted);
 }
 .status-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
-  background: var(--muted-sage);
+  background: var(--accent-orange);
   flex-shrink: 0;
-  box-shadow: 0 0 0 2px rgba(143,166,136,0.25);
+  box-shadow: 0 0 0 2px rgba(236, 143, 194, 0.35);
 }
 
 .about-right {
@@ -67,7 +66,6 @@
   height: 100%;
 }
 
-/* ---------------------------------------------- scroll cue */
 .scroll-cue {
   position: absolute;
   bottom: clamp(20px, 4vh, 40px);
@@ -76,21 +74,21 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  color: #5e5a52;
+  color: var(--text-muted);
   transition: opacity 400ms var(--ease-out-expo), transform 400ms var(--ease-out-expo);
   pointer-events: none;
 }
 .scroll-cue.is-hidden { opacity: 0; transform: translateY(8px); }
 .scroll-cue-label {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 .scroll-cue-track {
   position: relative;
   width: 22px; height: 34px;
-  border: 1.5px solid #b9b4aa;
+  border: 1.5px solid var(--warm-gray);
   border-radius: 12px;
 }
 .scroll-cue-track::after {
@@ -109,23 +107,19 @@
   100% { opacity: 0; transform: translateY(12px); }
 }
 
-/* ============================================ ABOUT — stack section */
 .stack-section {
-  /* one viewport, text left + map right (mirrors the hero) */
   position: relative;
   min-height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
   align-items: center;
   gap: clamp(24px, 4vw, 64px);
-  /* left padding matches the hero so both sections align */
   padding: clamp(40px, 7vh, 90px) clamp(16px, 3vw, 44px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
-  border-top: 1px solid var(--warm-gray);
   scroll-snap-align: start;
 }
 .stack-head {
   max-width: 44ch;
-  align-self: start;           /* sit toward the top, not vertically centred */
+  align-self: start;
 }
 .stack-head .ph-index { margin-bottom: 18px; }
 .stack-head h2 {
@@ -138,7 +132,7 @@
 }
 .stack-head p {
   font-family: var(--font-body);
-  color: #45433d;
+  color: var(--text-muted);
   line-height: 1.65;
   font-size: 0.97rem;
   max-width: 44ch;
@@ -152,9 +146,7 @@
 }
 .stack-graph-wrap.visible { opacity: 1; transform: none; }
 
-/* ============================================ ABOUT — background / path */
 .path-section {
-  /* one viewport, text left + cards right (mirrors the hero / stack) */
   position: relative;
   min-height: 100%;
   display: grid;
@@ -162,7 +154,6 @@
   align-items: center;
   gap: clamp(24px, 4vw, 64px);
   padding: clamp(40px, 7vh, 90px) clamp(16px, 3vw, 44px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
-  border-top: 1px solid var(--warm-gray);
   scroll-snap-align: start;
 }
 .path-head { max-width: 44ch; align-self: start; }
@@ -177,7 +168,7 @@
 }
 .path-head p {
   font-family: var(--font-body);
-  color: #45433d;
+  color: var(--text-muted);
   line-height: 1.65;
   font-size: 0.97rem;
   max-width: 44ch;
@@ -196,8 +187,9 @@
   padding: clamp(20px, 2.2vw, 30px);
   border: 1px solid var(--warm-gray);
   border-radius: 12px;
-  background: var(--canvas-deep);
-  /* staggered entrance (driven by .path-cards.visible) — static, not clickable */
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.55s var(--ease-out-expo), transform 0.55s var(--ease-out-expo);
@@ -208,10 +200,10 @@
 
 .path-period {
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #5e5a52;
+  color: var(--text-muted);
 }
 .path-title {
   font-family: var(--font-display);
@@ -221,26 +213,22 @@
   color: var(--ink-black);
   margin-top: 2px;
 }
-/* institute — small sage accent line */
 .path-place {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.76rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent-orange);
 }
-/* degree / description — readable body text, pushed to the card foot */
 .path-note {
   font-family: var(--font-body);
   font-size: 0.9rem;
   line-height: 1.5;
-  color: #45433d;
+  color: var(--text-muted);
   margin-top: auto;
   padding-top: 12px;
 }
 
-/* ============================================ ABOUT — certifications */
-/* full-width: heading on top, a 3-col card grid below (not right-aligned) */
 .cert-section {
   position: relative;
   min-height: 100%;
@@ -249,7 +237,6 @@
   justify-content: center;
   gap: clamp(22px, 4vh, 44px);
   padding: clamp(40px, 7vh, 90px) clamp(40px, 6vw, 96px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
-  border-top: 1px solid var(--warm-gray);
   scroll-snap-align: start;
 }
 .cert-head { max-width: 60ch; }
@@ -264,7 +251,7 @@
 }
 .cert-head p {
   font-family: var(--font-body);
-  color: #45433d;
+  color: var(--text-muted);
   line-height: 1.65;
   font-size: 0.97rem;
   max-width: 54ch;
@@ -290,8 +277,9 @@
   padding: clamp(18px, 2vw, 26px);
   border: 1px solid var(--warm-gray);
   border-radius: 12px;
-  background: var(--canvas-deep);
-  /* staggered entrance (driven by .cert-grid.visible) */
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.55s var(--ease-out-expo), transform 0.55s var(--ease-out-expo);
@@ -302,7 +290,7 @@
 .cert-tag {
   align-self: flex-start;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.76rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-orange);
@@ -316,19 +304,18 @@
   line-height: 1.12;
   font-weight: 400;
   color: var(--ink-black);
-  max-width: 88%; /* keep clear of the view icon */
+  max-width: 88%;
 }
 .cert-meta {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #5e5a52;
+  color: var(--text-muted);
   margin-top: auto;
   padding-top: 10px;
 }
 
-/* ---- hover-to-preview the certificate ---- */
 .cert-view {
   position: absolute;
   top: 14px; right: 14px;
@@ -338,7 +325,7 @@
   border: 1px solid var(--warm-gray);
   border-radius: 8px;
   background: var(--canvas);
-  color: #5e5a52;
+  color: var(--text-muted);
   cursor: pointer;
   outline: none;
   transition: border-color 0.2s var(--ease-out-expo),
@@ -346,10 +333,9 @@
               background 0.2s var(--ease-out-expo);
 }
 .cert-view:hover,
-.cert-view:focus-visible { border-color: var(--muted-sage); color: var(--muted-sage); }
+.cert-view:focus-visible { border-color: var(--accent-gold); color: var(--accent-gold); }
 .cert-view svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.7; }
 
-/* large floating preview, centred over the viewport */
 .cert-preview {
   position: fixed;
   top: 50%; left: 50%;
@@ -358,9 +344,9 @@
   max-height: 86vh;
   padding: 0px;
   background: var(--canvas);
-  border: 2px solid black;
+  border: 2px solid var(--ink-black);
   border-radius: 5px;
-  box-shadow: 0 30px 90px rgba(26, 26, 24, 0.32);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s var(--ease-out-expo), transform 0.2s var(--ease-out-expo);
@@ -379,7 +365,6 @@
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* ---- "hover to view" hint — top-right, auto-dismisses ---- */
 .cert-hint {
   position: fixed;
   top: clamp(18px, 4vh, 32px);
@@ -390,11 +375,11 @@
   padding: 10px 16px;
   border: 1px solid var(--warm-gray);
   border-radius: 999px;
-  background: rgba(240, 237, 230, 0.92);
+  background: rgba(20, 19, 31, 0.92);
   backdrop-filter: blur(8px);
-  box-shadow: 0 10px 30px rgba(26, 26, 24, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-black);
@@ -408,8 +393,8 @@
 .cert-hint-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
-  background: var(--muted-sage);
-  box-shadow: 0 0 0 2px rgba(143, 166, 136, 0.25);
+  background: var(--accent-orange);
+  box-shadow: 0 0 0 2px rgba(236, 143, 194, 0.35);
 }
 
 @media (max-width: 920px) {
@@ -417,17 +402,17 @@
     grid-template-columns: 1fr;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;          /* clear the bottom pill nav */
+    padding-bottom: 96px;
   }
   .about-right { height: 440px; }
-  .scroll-cue { display: none; }   /* the pill nav owns the bottom on mobile */
+  .scroll-cue { display: none; }
   .stack-section {
     grid-template-columns: 1fr;
     align-content: center;
     gap: 20px;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;          /* clear the bottom pill nav */
+    padding-bottom: 96px;
   }
   .path-section {
     grid-template-columns: 1fr;
@@ -435,17 +420,17 @@
     gap: 20px;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;          /* clear the bottom pill nav */
+    padding-bottom: 96px;
   }
   .path-cards { gap: 12px; }
   .cert-section {
     gap: 20px;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;          /* clear the bottom pill nav */
+    padding-bottom: 96px;
   }
   .cert-grid { grid-template-columns: 1fr; gap: 12px; }
   .cert-preview { width: 92vw; max-height: 78vh; }
   .cert-preview img { max-height: calc(78vh - 20px); }
-  .cert-hint { display: none; }    /* hover hint not relevant on touch */
+  .cert-hint { display: none; }
 }
