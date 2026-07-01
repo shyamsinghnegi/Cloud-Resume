@@ -1,4 +1,5 @@
 "use client"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useInView } from "../components/use-in-view"
 import { useTiltGlow } from "../components/use-tilt-glow"
@@ -71,8 +72,20 @@ export default function ProjectsPage() {
   const [headRef, headIn] = useInView()
   const [gridRef, gridIn] = useInView({ rootMargin: "0px 0px -8% 0px" })
 
+  const [showHint, setShowHint] = useState(false)
+  useEffect(() => {
+    if (!gridIn) return
+    const raf = requestAnimationFrame(() => setShowHint(true))
+    const t = setTimeout(() => setShowHint(false), 2600)
+    return () => { cancelAnimationFrame(raf); clearTimeout(t) }
+  }, [gridIn])
+
   return (
     <section className="proj-section stage-el">
+      <div className={`proj-hint${showHint ? " show" : ""}`} role="status">
+        <span className="proj-hint-dot" />
+        Click a project for details
+      </div>
       <div ref={headRef} className={`proj-head reveal${headIn ? " visible" : ""}`}>
         <div className="ph-index">
           <span>03 / Projects</span>

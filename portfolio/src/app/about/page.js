@@ -73,7 +73,6 @@ function CertCard({ c, i, isMobile }) {
       onPointerLeave={tilt.onPointerLeave}
     >
       <div className="cert-glow" aria-hidden="true" />
-      <img className="cert-dither" src="/dither.png" alt="" aria-hidden="true" draggable={false} />
       <span className="cert-tag">{c.tag}</span>
       <h3 className="cert-title">{c.title}</h3>
       <span className="cert-meta">{c.issuer} · {c.year}</span>
@@ -119,7 +118,7 @@ export default function AboutPage() {
   useEffect(() => {
     if (!certIn) return
     const raf = requestAnimationFrame(() => setShowCertHint(true))
-    const t = setTimeout(() => setShowCertHint(false), 2000)
+    const t = setTimeout(() => setShowCertHint(false), 2600)
     return () => { cancelAnimationFrame(raf); clearTimeout(t) }
   }, [certIn])
 

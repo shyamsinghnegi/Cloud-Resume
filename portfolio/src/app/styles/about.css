@@ -5,7 +5,6 @@
   grid-template-columns: 1fr clamp(380px, 36vw, 540px);
   align-items: center;
   padding-left: clamp(120px, 12vw, 180px);
-  scroll-snap-align: start;
 }
 
 .about-left {
@@ -107,15 +106,20 @@
   100% { opacity: 0; transform: translateY(12px); }
 }
 
+.stack-section,
+.path-section,
+.cert-section {
+  border-top: 1px dashed rgba(122, 122, 148, 0.22);
+}
+
 .stack-section {
   position: relative;
-  min-height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
   align-items: center;
   gap: clamp(24px, 4vw, 64px);
+  margin-top: clamp(48px, 8vh, 96px);
   padding: clamp(40px, 7vh, 90px) clamp(16px, 3vw, 44px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
-  scroll-snap-align: start;
 }
 .stack-head {
   max-width: 44ch;
@@ -148,13 +152,12 @@
 
 .path-section {
   position: relative;
-  min-height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
   align-items: center;
   gap: clamp(24px, 4vw, 64px);
+  margin-top: clamp(48px, 8vh, 96px);
   padding: clamp(40px, 7vh, 90px) clamp(16px, 3vw, 44px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
-  scroll-snap-align: start;
 }
 .path-head { max-width: 44ch; align-self: start; }
 .path-head .ph-index { margin-bottom: 18px; }
@@ -231,13 +234,11 @@
 
 .cert-section {
   position: relative;
-  min-height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: clamp(22px, 4vh, 44px);
+  margin-top: clamp(48px, 8vh, 96px);
   padding: clamp(40px, 7vh, 90px) clamp(40px, 6vw, 96px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
-  scroll-snap-align: start;
 }
 .cert-head { max-width: 60ch; }
 .cert-head .ph-index { margin-bottom: 18px; }
@@ -313,22 +314,6 @@
 .cert-card:hover .cert-glow,
 .cert-card:focus-within .cert-glow { opacity: 1; }
 
-.cert-dither {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 46%;
-  height: 70%;
-  object-fit: cover;
-  object-position: top left;
-  opacity: 0.1;
-  mix-blend-mode: luminosity;
-  -webkit-mask-image: linear-gradient(to left, #000 30%, transparent 100%);
-  mask-image: linear-gradient(to left, #000 30%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-
 .cert-card::after {
   content: "";
   position: absolute;
@@ -347,7 +332,7 @@
 .cert-card:hover::after,
 .cert-card:focus-within::after { opacity: 0.7; }
 
-.cert-card > *:not(.cert-glow):not(.cert-dither) { z-index: 2; }
+.cert-card > *:not(.cert-glow) { z-index: 2; }
 .cert-card > .cert-tag,
 .cert-card > .cert-title,
 .cert-card > .cert-meta { position: relative; }
@@ -466,6 +451,12 @@
   box-shadow: 0 0 0 2px rgba(236, 143, 194, 0.35);
 }
 
+@media (min-width: 921px) {
+  .stack-section,
+  .path-section,
+  .cert-section { min-height: 100vh; }
+}
+
 @media (max-width: 1080px) {
   .about-hero { grid-template-columns: 1fr clamp(300px, 34vw, 420px); }
   .stack-section,
@@ -480,19 +471,10 @@
     grid-template-columns: 1fr;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;
+    padding-bottom: 48px;
   }
   .about-right { height: clamp(300px, 88vw, 440px); }
   .scroll-cue { display: none; }
-  .about-left,
-  .stack-head,
-  .path-head,
-  .cert-head { text-align: center; align-items: center; }
-  .about-left .ph-index,
-  .stack-head .ph-index,
-  .path-head .ph-index,
-  .cert-head .ph-index { justify-content: center; }
-  .about-bio { align-items: center; }
   .about-bio p,
   .stack-head p,
   .path-head p,
@@ -500,28 +482,28 @@
   .stack-section {
     grid-template-columns: 1fr;
     align-content: center;
-    justify-items: center;
     gap: 20px;
+    margin-top: 32px;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;
+    padding-bottom: 48px;
   }
   .path-section {
     grid-template-columns: 1fr;
     align-content: center;
-    justify-items: center;
     gap: 20px;
+    margin-top: 32px;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;
+    padding-bottom: 48px;
   }
   .path-cards { gap: 12px; }
   .cert-section {
-    align-items: center;
     gap: 20px;
+    margin-top: 32px;
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;
+    padding-bottom: 48px;
   }
   .cert-grid { grid-template-columns: 1fr; gap: 12px; }
   .cert-card:nth-child(1),

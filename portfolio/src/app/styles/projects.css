@@ -6,7 +6,39 @@
   justify-content: center;
   gap: clamp(20px, 3.5vh, 38px);
   padding: clamp(40px, 7vh, 90px) clamp(40px, 5vw, 80px) clamp(36px, 5vh, 64px) clamp(120px, 12vw, 180px);
-  scroll-snap-align: start;
+}
+
+.proj-hint {
+  position: fixed;
+  top: clamp(10px, 2vh, 20px);
+  right: clamp(18px, 3vw, 36px);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border: 1px solid var(--warm-gray);
+  border-radius: 999px;
+  background: rgba(20, 19, 31, 0.92);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-black);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+  z-index: 40;
+}
+.proj-hint.show { opacity: 1; transform: none; }
+.proj-hint-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  box-shadow: 0 0 0 2px rgba(236, 143, 194, 0.35);
+  flex-shrink: 0;
 }
 
 .proj-head { max-width: 60ch; }
@@ -224,16 +256,23 @@
   .proj-section {
     padding-left: clamp(20px, 6vw, 40px);
     padding-right: clamp(20px, 6vw, 40px);
-    padding-bottom: 96px;
+    padding-bottom: 48px;
   }
   .bento-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
     height: auto;
   }
-  .bento-a, .bento-b, .bento-c, .bento-d, .bento-e {
-    grid-column: 1;
-    grid-row: auto;
-    min-height: auto;
-  }
+  .bento-a { grid-column: 1 / span 2; grid-row: 1; min-height: 320px; }
+  .bento-b { grid-column: 1; grid-row: 2; }
+  .bento-c { grid-column: 2; grid-row: 2; }
+  .bento-d { grid-column: 1; grid-row: 3; }
+  .bento-e { grid-column: 2; grid-row: 3; }
+  .bento-card { min-height: 160px; padding: 20px; gap: 10px; }
+  .bento-name { font-size: 1.05rem; }
+  .bento-a .bento-name { font-size: 1.5rem; }
+  .bento-desc { font-size: 0.76rem; -webkit-line-clamp: 3; }
+  .bento-a .bento-desc { -webkit-line-clamp: 6; }
+  .proj-tag { font-size: 0.6rem; padding: 2px 6px; }
+  .bento-cta { font-size: 0.64rem; padding: 5px 10px; }
 }
