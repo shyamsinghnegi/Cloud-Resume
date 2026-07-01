@@ -66,6 +66,17 @@ img { display: block; max-width: 100%; }
   background: rgba(4, 4, 9, 0.55);
   transition: background 300ms var(--ease-out-expo);
 }
+@keyframes scrimIntro {
+  0%   { background: rgba(4, 4, 9, 0); }
+  100% { background: rgba(4, 4, 9, 0.55); }
+}
+.bg-scrim.intro {
+  animation: scrimIntro 350ms var(--ease-out-expo) forwards;
+  animation-delay: 250ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-scrim.intro { animation: none; }
+}
 
 #root { position: relative; z-index: 2; height: 100%; }
 
@@ -227,6 +238,15 @@ img { display: block; max-width: 100%; }
   opacity: 0;
   animation: sectionEnter var(--duration-enter) var(--ease-out-expo) forwards;
   animation-delay: calc(var(--index, 0) * var(--stagger-step));
+}
+
+.home-intro .stage-el {
+  opacity: 0;
+  animation: sectionEnter 400ms var(--ease-out-expo) forwards;
+  animation-delay: calc(500ms + var(--index, 0) * 150ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-intro .stage-el { animation: none; opacity: 1; }
 }
 
 .reveal {

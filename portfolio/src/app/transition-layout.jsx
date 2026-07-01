@@ -29,6 +29,7 @@ export default function TransitionLayout({ children }) {
   const router    = useRouter()
   const [section,    setSection]    = useState(() => pathToSection(pathname))
   const [stageClass, setStageClass] = useState("")
+  const [homeIntro,  setHomeIntro]  = useState(() => pathToSection(pathname) === "home")
   const busy     = useRef(false)
   const prevPath = useRef(pathname)
 
@@ -57,14 +58,21 @@ export default function TransitionLayout({ children }) {
     return () => cancelAnimationFrame(raf)
   }, [pathname])
 
+  useEffect(() => {
+    if (section !== "home") return
+    setHomeIntro(true)
+    const t = setTimeout(() => setHomeIntro(false), 1500)
+    return () => clearTimeout(t)
+  }, [section])
+
   const isHome = section === "home"
   const isDetail = isProjectDetail(pathname)
 
   return (
     <NavCtx.Provider value={navigate}>
       {!isDetail && <BgTexture />}
-      <div className={`app${isHome ? " is-home" : ""}${isDetail ? " is-project-detail" : ""}`}>
-        {!isDetail && <div className="bg-scrim" aria-hidden="true" />}
+      <div className={`app${isHome ? " is-home" : ""}${isDetail ? " is-project-detail" : ""}${isHome && homeIntro ? " home-intro" : ""}`}>
+        {!isDetail && <div className={`bg-scrim${isHome && homeIntro ? " intro" : ""}`} aria-hidden="true" />}
         {isHome && (
           <div className="chrome chrome--bottom">
             <span className="mono">AVAILABLE FOR WORK — 2026</span>
