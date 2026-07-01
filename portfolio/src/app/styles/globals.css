@@ -39,7 +39,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { height: 100%; }
+html, body { height: 100%; height: 100dvh; }
 html { font-size: 100%; }
 body {
   margin: 0;

@@ -9,7 +9,7 @@
 
 .hero-left {
   align-self: center;
-  max-width: 760px;
+  max-width: min(760px, 100%);
   padding-right: var(--space-4);
 }
 
@@ -71,6 +71,10 @@
   height: 100%;
 }
 
+@media (max-width: 1080px) {
+  .home { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); }
+}
+
 @media (max-width: 920px) {
   .home {
     display: flex;
@@ -78,7 +82,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-top: clamp(40px, 7vh, 80px);
+    padding-top: clamp(32px, 6vh, 64px);
     padding-bottom: 56px;
   }
 
