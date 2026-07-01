@@ -137,7 +137,6 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       const moved = Math.hypot(p.x - downX, p.y - downY)
       const elapsed = Date.now() - downT
       if (moved < 8 && elapsed < 250) {
-        // only flip if the tap wasn't on the back button
         if (!e.target.closest(".dont-click")) {
           setFlipped(f => !f)
         }
@@ -201,15 +200,13 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       const nodes = [pts[0]]
       for (let i = 1; i <= SEG; i++) nodes.push(pts[i].lerp)
 
-      // end the rope exactly where the clip sits: the card's top-edge midpoint,
-      // lifted a few px into the clip arch along the card's outward normal.
       const c0 = corners[0], c1 = corners[1]
       const midX = (c0.x + c1.x) / 2
       const midY = (c0.y + c1.y) / 2
       const ex = c1.x - c0.x, ey = c1.y - c0.y
       const elen = Math.hypot(ex, ey) || 1
-      const ux = ey / elen, uy = -ex / elen   // unit normal, points away from card body
-      const CLIP_RISE = 12                      // nestle into the clip arch
+      const ux = ey / elen, uy = -ex / elen
+      const CLIP_RISE = 12
       nodes.push({ x: midX + ux * CLIP_RISE, y: midY + uy * CLIP_RISE })
 
       const d = smoothPath(nodes)
@@ -272,7 +269,6 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
         </div>
         <div className={`badge-inner${flipped ? " flipped" : ""}`}>
 
-          {/* ── Front face ── */}
           <div className="badge-front">
             <div className="badge-top">
               <span>ACCESS / ENGINEERING</span>
@@ -291,7 +287,6 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
             </div>
           </div>
 
-          {/* ── Back face ── */}
           <div className="badge-back">
             <p className="back-hint">tap card to flip back</p>
             <div className="back-socials">

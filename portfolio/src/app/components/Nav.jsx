@@ -67,7 +67,6 @@ export default function Nav({ onNavigate, collapsed = false, currentSection = "h
           onClick={() => onNavigate(s.id)}
         >
           {s.icon}
-          {/* <span className="gi-tip">{s.label}</span> */}
         </button>
       ))}
     </nav>

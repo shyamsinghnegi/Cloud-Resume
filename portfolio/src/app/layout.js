@@ -1,11 +1,10 @@
-import { DM_Serif_Display, DM_Sans, JetBrains_Mono } from "next/font/google"
+import { Shippori_Mincho, DM_Sans, JetBrains_Mono } from "next/font/google"
 import "./styles/globals.css"
 import TransitionLayout from "./transition-layout"
 
-const dmSerif = DM_Serif_Display({
+const dmSerif = Shippori_Mincho({
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-display",
 })
 

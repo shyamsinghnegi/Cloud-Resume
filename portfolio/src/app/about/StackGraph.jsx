@@ -5,7 +5,6 @@ import "../styles/StackGraph.css"
 const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons"
 const logo = (s, f) => `${DEVICON}/${s}/${f}.svg`
 
-// fixed category headings (fx/fy are fractions of the container)
 const CATS = [
   { id: "cloud",    label: "Cloud",       fx: 0.30, fy: 0.32 },
   { id: "frontend", label: "Frontend",    fx: 0.70, fy: 0.30 },
@@ -13,7 +12,6 @@ const CATS = [
   { id: "devops",   label: "DevOps / CI", fx: 0.69, fy: 0.70 },
 ]
 
-// movable tech nodes, each linked to a category
 const TECH = [
   { id: "aws",    cat: "cloud",    label: "AWS",        src: logo("amazonwebservices", "amazonwebservices-original-wordmark") },
   { id: "azure",  cat: "cloud",    label: "Azure",      src: logo("azure", "azure-original") },
@@ -53,7 +51,6 @@ export default function StackGraph() {
     if (!wrap) return
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
-    // local physics state (copy of the static descriptors — never mutate `nodes`)
     const sim = nodes.map((n) => ({ ...n, x: 0, y: 0, vx: 0, vy: 0 }))
     const byId = Object.fromEntries(sim.map((n) => [n.id, n]))
     let W = 0, H = 0
@@ -64,8 +61,6 @@ export default function StackGraph() {
       for (const n of sim) if (n.fixed) { n.x = n.fx * W; n.y = n.fy * H }
     }
 
-    // seed each tech node right on its category, so the intro spring flings it
-    // outward into its ring — keeps clusters organised while adding movement
     function seed() {
       for (const n of sim) {
         if (n.fixed) continue
@@ -77,8 +72,6 @@ export default function StackGraph() {
         n.vx = 0; n.vy = 0
       }
     }
-    // half width/height of each node's pill, so clamping keeps the whole
-    // label inside the box (radius alone misses wide pills like "GitHub Actions")
     function measureNodes() {
       for (const n of sim) {
         const el = elRef.current[n.id]
@@ -89,7 +82,6 @@ export default function StackGraph() {
     measure()
     seed()
     measureNodes()
-    // re-measure once the web font has loaded (pill widths change with it)
     requestAnimationFrame(measureNodes)
     document.fonts?.ready?.then(measureNodes)
 
@@ -125,11 +117,10 @@ export default function StackGraph() {
     window.addEventListener("pointermove", onMove)
     window.addEventListener("pointerup", onUp)
 
-    const GAP_X = 16, GAP_Y = 12 // breathing room between pill boxes
-    const OUTWARD = 0.28          // steady push that drives tech nodes to the edges
+    const GAP_X = 16, GAP_Y = 12
+    const OUTWARD = 0.28
 
     function physics(springK, friction) {
-      // link springs — keep each tech tethered to its category
       for (const [aId, bId] of links) {
         const a = byId[aId], b = byId[bId]
         const rest = a.type === "root" || b.type === "root" ? REST_ROOT : REST_CAT
@@ -140,7 +131,6 @@ export default function StackGraph() {
         if (!a.fixed && a.id !== dragId) { a.vx += fx; a.vy += fy }
         if (!b.fixed && b.id !== dragId) { b.vx -= fx; b.vy -= fy }
       }
-      // push tech nodes outward from the centre, toward the canvas edges
       const cx = W / 2, cy = H / 2
       for (const n of sim) {
         if (n.fixed || n.id === dragId) continue
@@ -149,15 +139,11 @@ export default function StackGraph() {
         n.vx += (ox / ol) * OUTWARD
         n.vy += (oy / ol) * OUTWARD
       }
-      // integrate velocity → position
       for (const n of sim) {
         if (n.fixed || n.id === dragId) continue
         n.vx *= friction; n.vy *= friction
         n.x += n.vx; n.y += n.vy
       }
-      // collision + bounds, interleaved so edge-clamping can't re-overlap.
-      // Push along the centre-to-centre direction (radial) so nodes slide
-      // *around* each other instead of jamming head-on.
       for (let iter = 0; iter < 6; iter++) {
         for (let i = 0; i < sim.length; i++) {
           const a = sim[i]
@@ -166,7 +152,6 @@ export default function StackGraph() {
             let dx = b.x - a.x, dy = b.y - a.y
             const sepX = (a.hw || a.r) + (b.hw || b.r) + GAP_X
             const sepY = (a.hh || a.r) + (b.hh || b.r) + GAP_Y
-            // normalise into "box space"; outside the unit ellipse = no overlap
             if (dx === 0 && dy === 0) { dx = (Math.random() - 0.5); dy = (Math.random() - 0.5) }
             const u = dx / sepX, v = dy / sepY
             const nd = Math.hypot(u, v)
@@ -175,14 +160,12 @@ export default function StackGraph() {
             const bMov = !b.fixed && b.id !== dragId
             if (!aMov && !bMov) continue
             const share = aMov && bMov ? 0.5 : 1
-            const corr = (1 / nd - 1)          // how far to push back to the boundary
+            const corr = (1 / nd - 1)
             const pushX = dx * corr, pushY = dy * corr
             if (aMov) { a.x -= pushX * share; a.y -= pushY * share; a.vx = 0; a.vy = 0 }
             if (bMov) { b.x += pushX * share; b.y += pushY * share; b.vx = 0; b.vy = 0 }
           }
         }
-        // clamp inside this iteration so the next collision pass corrects any
-        // overlap the clamp introduced at the edges
         for (const n of sim) {
           if (n.fixed || n.id === dragId) continue
           const padX = (n.hw || n.r) + 6, padY = (n.hh || n.r) + 6
@@ -211,8 +194,6 @@ export default function StackGraph() {
     let raf
     const start = performance.now()
     function loop(t) {
-      // intro: stronger spring + less damping so nodes burst out and bounce,
-      // then settle to the calm steady-state values
       const intro = t - start < 950
       const springK  = intro ? 0.07 : SPRING
       const friction = intro ? 0.90 : FRICTION

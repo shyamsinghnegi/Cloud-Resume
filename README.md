@@ -9,7 +9,7 @@ This project was originally built and deployed entirely on AWS. Due to account a
 ## Live Demo (Azure)
 
 Explore the live website, now hosted on Azure Storage:
-🔗[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Website-brightgreen?style=for-the-badge&logo=vercel)](https://portfoliorga628.z29.web.core.windows.net/)
+🔗[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Website-brightgreen?style=for-the-badge&logo=vercel)](https://shyamsingh-negi.in/)
 
 
 ## ☁️ The Migration Story: AWS to Azure

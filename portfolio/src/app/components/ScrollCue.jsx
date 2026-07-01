@@ -1,9 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 
-/* "scroll down" hint pinned to its own section. Visible only while that
-   section is snapped into view, fades as you scroll toward the next one —
-   so multiple cues (one per section) each behave independently. */
 export default function ScrollCue({ label = "Scroll" }) {
   const ref = useRef(null)
   const [hidden, setHidden] = useState(false)

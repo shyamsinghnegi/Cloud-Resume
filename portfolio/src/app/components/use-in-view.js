@@ -1,8 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 
-/* Fires once when the element scrolls into view. Returns [ref, inView].
-   Used to drive `.reveal` / `.visible` scroll animations. */
 export function useInView(options) {
   const ref = useRef(null)
   const [inView, setInView] = useState(false)

@@ -6,7 +6,6 @@ import ScrollCue from "../components/ScrollCue"
 import { useInView } from "../components/use-in-view"
 import "../styles/about.css"
 
-// chronological background — education then current freelance work
 const PATH = [
   {
     period: "2021 — 2024", title: "BCA", place: "IITM, Janakpuri",
@@ -22,7 +21,6 @@ const PATH = [
   },
 ]
 
-// certifications, training, research & awards — most recent first
 const CERTS = [
   { tag: "Elite", title: "Introduction to Japanese Language & Culture", issuer: "NPTEL · IIT Kanpur", year: "2026", img: "/certs/japanese.jpg" },
   { tag: "Award", title: "Smart India Hackathon — Project Exhibition", issuer: "IITM, GGSIPU", year: "2024", img: "/certs/best-award.jpg" },
@@ -39,7 +37,6 @@ export default function AboutPage() {
   const [certHeadRef, certHeadIn] = useInView()
   const [certRef, certIn] = useInView({ rootMargin: "0px 0px -12% 0px" })
 
-  // one-time hint when the certs section scrolls into view
   const [showCertHint, setShowCertHint] = useState(false)
   useEffect(() => {
     if (!certIn) return
@@ -57,7 +54,6 @@ export default function AboutPage() {
 
   return (
     <>
-      {/* ── Hero: one viewport ── */}
       <section className="about-hero stage-el">
         <div className={`cert-hint${showFlipHint ? " show" : ""}`} role="status">
           <span className="cert-hint-dot" />
@@ -97,7 +93,6 @@ export default function AboutPage() {
         <ScrollCue label="Scroll — the stack" />
       </section>
 
-      {/* ── Stack: scrolls into view ── */}
       <section className="stack-section">
         <div
           ref={headRef}
@@ -130,7 +125,6 @@ export default function AboutPage() {
         <ScrollCue label="Scroll — background" />
       </section>
 
-      {/* ── Background: education + freelance, as cards ── */}
       <section className="path-section">
         <div
           ref={pathHeadRef}
@@ -166,7 +160,6 @@ export default function AboutPage() {
         <ScrollCue label="Scroll — certifications" />
       </section>
 
-      {/* ── Certifications / training / awards ── */}
       <section className="cert-section">
         <div
           ref={certHeadRef}
@@ -190,7 +183,6 @@ export default function AboutPage() {
               <h3 className="cert-title">{c.title}</h3>
               <span className="cert-meta">{c.issuer} · {c.year}</span>
 
-              {/* hover the icon to peek the certificate, full size */}
               <span className="cert-view" tabIndex={0} aria-label={`View ${c.title} certificate`}>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
