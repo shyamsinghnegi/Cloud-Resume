@@ -2,7 +2,12 @@
 import { useRef, useEffect, useState } from "react"
 import "../styles/Lanyard.css"
 
-export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
+const CARD_ASPECT = 366 / 252 // height / width, matches the original fixed 252x366 design
+const CARD_W_RATIO = 0.8      // card width as a fraction of the lanyard container width
+const CARD_W_MAX = 340        // absolute cap so the card doesn't outgrow the badge art at wide viewports
+const ANCHOR_X_FRAC = 0.32    // anchor point as a fraction of container width (0.5 = centered)
+
+export default function Lanyard() {
   const rootRef = useRef(null)
   const svgRef = useRef(null)
   const bandRef = useRef(null)
@@ -10,6 +15,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
   const cardRef = useRef(null)
   const [flipped, setFlipped] = useState(false)
   const [clickCount, setClickCount] = useState(0)
+  const [cardSize, setCardSize] = useState({ w: 252, h: 366 })
 
   useEffect(() => {
     const root = rootRef.current
@@ -23,6 +29,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
     const CLIP_LEN = 0
     const MAX_SPEED = 50, MIN_SPEED = 0
 
+    let CARD_W = 252, CARD_H = 366
     let W = 0, H = 0, anchor = { x: 0, y: 14 }
     let ropeLen = 0, segLen = 0
     let pts = []
@@ -39,7 +46,10 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       if (!root || !svgRef.current) return
       const r = root.getBoundingClientRect()
       W = r.width; H = r.height
-      anchor.x = W * 0.5
+      CARD_W = Math.min(CARD_W_MAX, W * CARD_W_RATIO)
+      CARD_H = CARD_W * CARD_ASPECT
+      setCardSize({ w: CARD_W, h: CARD_H })
+      anchor.x = W * ANCHOR_X_FRAC
       anchor.y = 14
       ropeLen = Math.max(60, H * 0.15)
       segLen = ropeLen / SEG
@@ -249,18 +259,22 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
       cardEl.removeEventListener("pointercancel", onUp)
       if (ro) ro.disconnect()
     }
-  }, [CARD_W, CARD_H])
+  }, [])
 
   const backLabel = ["don't click", "seriously...", "last warning", "you did this"][clickCount] ?? "you did this"
 
   return (
     <div className="lanyard" ref={rootRef}>
-      <span className="pin" />
+      <span className="pin" style={{ left: `${ANCHOR_X_FRAC * 100}%` }} />
       <svg ref={svgRef} className="lanyard-svg" style={{ width: "100%", height: "100%" }}>
         <path ref={bandRef} className="band" />
         <path ref={coreRef} className="band-core" />
       </svg>
-      <div className="badge" ref={cardRef}>
+      <div
+        className="badge"
+        ref={cardRef}
+        style={{ width: `${cardSize.w}px`, height: `${cardSize.h}px` }}
+      >
         <div className="clip">
           <div className={`clip-inner${flipped ? " flipped" : ""}`}>
             <div className="clip-front" />
@@ -275,7 +289,7 @@ export default function Lanyard({ cardW: CARD_W = 232, cardH: CARD_H = 336 }) {
               <span className="id">ID·001</span>
             </div>
             <div className="photo">
-              <div className="ph-label">PHOTO<span>drop headshot</span></div>
+              <img src="/dither.png" alt="" draggable={false} />
             </div>
             <div className="badge-id">
               <div className="name">Shyam Singh Negi</div>

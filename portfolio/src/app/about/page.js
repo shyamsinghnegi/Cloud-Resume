@@ -1,10 +1,26 @@
 "use client"
 import { useState, useEffect } from "react"
 import Lanyard from "./Lanyard"
+import ProfileCard from "./ProfileCard"
 import StackGraph from "./StackGraph"
+import SkillTree from "./SkillTree"
 import ScrollCue from "../components/ScrollCue"
 import { useInView } from "../components/use-in-view"
 import "../styles/about.css"
+
+function useIsMobile(breakpoint = 920) {
+  const [isMobile, setIsMobile] = useState(false)
+  const [resolved, setResolved] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`)
+    setIsMobile(mq.matches)
+    setResolved(true)
+    const onChange = (e) => setIsMobile(e.matches)
+    mq.addEventListener("change", onChange)
+    return () => mq.removeEventListener("change", onChange)
+  }, [breakpoint])
+  return [isMobile, resolved]
+}
 
 const PATH = [
   {
@@ -30,6 +46,7 @@ const CERTS = [
 ]
 
 export default function AboutPage() {
+  const [isMobile, mobileResolved] = useIsMobile()
   const [headRef, headIn] = useInView()
   const [gridRef, gridIn] = useInView({ rootMargin: "0px 0px -12% 0px" })
   const [pathHeadRef, pathHeadIn] = useInView()
@@ -66,6 +83,10 @@ export default function AboutPage() {
 
           <h2 className="about-heading">Who I Am<span className="accent-dot">.</span></h2>
 
+          <div className="profile-card-slot">
+            {mobileResolved && isMobile && <ProfileCard />}
+          </div>
+
           <div className="about-bio">
             <p>
               Cloud &amp; DevOps engineer based in India. I build the infrastructure
@@ -85,9 +106,11 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="about-right">
-          <Lanyard cardW={252} cardH={366} />
-        </div>
+        {mobileResolved && !isMobile && (
+          <div className="about-right">
+            <Lanyard />
+          </div>
+        )}
 
         <ScrollCue label="Scroll — the stack" />
       </section>
@@ -117,7 +140,7 @@ export default function AboutPage() {
         </div>
 
         <div ref={gridRef} className={`stack-graph-wrap${gridIn ? " visible" : ""}`}>
-          <StackGraph />
+          {mobileResolved && (isMobile ? <SkillTree /> : <StackGraph />)}
         </div>
 
         <ScrollCue label="Scroll — background" />

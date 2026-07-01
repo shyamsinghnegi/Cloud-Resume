@@ -1,0 +1,44 @@
+.skill-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.skill-cat {
+  border: 1px solid var(--warm-gray);
+  border-radius: 14px;
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: clamp(16px, 4vw, 22px);
+}
+
+.skill-cat-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 14px;
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid var(--warm-gray);
+  border-radius: 999px;
+  background: var(--canvas-deep);
+  color: var(--ink-black);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+.skill-chip img { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }

@@ -1,33 +1,7 @@
 "use client"
 import { useRef, useEffect, useMemo } from "react"
+import { CATS, TECH } from "./stack-data"
 import "../styles/StackGraph.css"
-
-const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons"
-const logo = (s, f) => `${DEVICON}/${s}/${f}.svg`
-
-const CATS = [
-  { id: "cloud",    label: "Cloud",       fx: 0.30, fy: 0.32 },
-  { id: "frontend", label: "Frontend",    fx: 0.70, fy: 0.30 },
-  { id: "backend",  label: "Backend",     fx: 0.31, fy: 0.70 },
-  { id: "devops",   label: "DevOps / CI", fx: 0.69, fy: 0.70 },
-]
-
-const TECH = [
-  { id: "aws",    cat: "cloud",    label: "AWS",        src: logo("amazonwebservices", "amazonwebservices-original-wordmark") },
-  { id: "azure",  cat: "cloud",    label: "Azure",      src: logo("azure", "azure-original") },
-  { id: "react",  cat: "frontend", label: "React",      src: logo("react", "react-original") },
-  { id: "next",   cat: "frontend", label: "Next.js",    src: logo("nextjs", "nextjs-original") },
-  { id: "js",     cat: "frontend", label: "JavaScript", src: logo("javascript", "javascript-original") },
-  { id: "python", cat: "backend",  label: "Python",     src: logo("python", "python-original") },
-  { id: "node",   cat: "backend",  label: "Node.js",    src: logo("nodejs", "nodejs-original") },
-  { id: "mongo",  cat: "backend",  label: "MongoDB",    src: logo("mongodb", "mongodb-original") },
-  { id: "cosmos", cat: "backend",  label: "Cosmos DB",  src: logo("cosmosdb", "cosmosdb-original") },
-  { id: "dynamo", cat: "backend",  label: "DynamoDB",   src: logo("dynamodb", "dynamodb-original") },
-  { id: "docker", cat: "devops",   label: "Docker",     src: logo("docker", "docker-original") },
-  { id: "terra",  cat: "devops",   label: "Terraform",  src: logo("terraform", "terraform-original") },
-  { id: "gha",    cat: "devops",   label: "GitHub Actions", src: logo("githubactions", "githubactions-original") },
-  { id: "linux",  cat: "devops",   label: "Linux",      src: logo("linux", "linux-original") },
-]
 
 function buildGraph() {
   const nodes = [{ id: "root", type: "root", label: "Stack", r: 34, fixed: true, fx: 0.5, fy: 0.5 }]
@@ -117,8 +91,9 @@ export default function StackGraph() {
     window.addEventListener("pointermove", onMove)
     window.addEventListener("pointerup", onUp)
 
-    const GAP_X = 16, GAP_Y = 12
     const OUTWARD = 0.28
+    const REPEL_GAP = 10
+    const REPEL_SOFT = 0.06
 
     function physics(springK, friction) {
       for (const [aId, bId] of links) {
@@ -139,41 +114,35 @@ export default function StackGraph() {
         n.vx += (ox / ol) * OUTWARD
         n.vy += (oy / ol) * OUTWARD
       }
+      for (let i = 0; i < sim.length; i++) {
+        const a = sim[i]
+        for (let j = i + 1; j < sim.length; j++) {
+          const b = sim[j]
+          const dx = b.x - a.x, dy = b.y - a.y
+          const sep = (a.hw || a.r) + (b.hw || b.r) + REPEL_GAP
+          const d = Math.hypot(dx, dy) || 0.01
+          if (d >= sep) continue
+          const overlap = sep - d
+          const ux = dx / d, uy = dy / d
+          const push = overlap * REPEL_SOFT
+          const aMov = !a.fixed && a.id !== dragId
+          const bMov = !b.fixed && b.id !== dragId
+          if (aMov) { a.vx -= ux * push; a.vy -= uy * push }
+          if (bMov) { b.vx += ux * push; b.vy += uy * push }
+        }
+      }
       for (const n of sim) {
         if (n.fixed || n.id === dragId) continue
         n.vx *= friction; n.vy *= friction
         n.x += n.vx; n.y += n.vy
       }
-      for (let iter = 0; iter < 6; iter++) {
-        for (let i = 0; i < sim.length; i++) {
-          const a = sim[i]
-          for (let j = i + 1; j < sim.length; j++) {
-            const b = sim[j]
-            let dx = b.x - a.x, dy = b.y - a.y
-            const sepX = (a.hw || a.r) + (b.hw || b.r) + GAP_X
-            const sepY = (a.hh || a.r) + (b.hh || b.r) + GAP_Y
-            if (dx === 0 && dy === 0) { dx = (Math.random() - 0.5); dy = (Math.random() - 0.5) }
-            const u = dx / sepX, v = dy / sepY
-            const nd = Math.hypot(u, v)
-            if (nd >= 1 || nd === 0) continue
-            const aMov = !a.fixed && a.id !== dragId
-            const bMov = !b.fixed && b.id !== dragId
-            if (!aMov && !bMov) continue
-            const share = aMov && bMov ? 0.5 : 1
-            const corr = (1 / nd - 1)
-            const pushX = dx * corr, pushY = dy * corr
-            if (aMov) { a.x -= pushX * share; a.y -= pushY * share; a.vx = 0; a.vy = 0 }
-            if (bMov) { b.x += pushX * share; b.y += pushY * share; b.vx = 0; b.vy = 0 }
-          }
-        }
-        for (const n of sim) {
-          if (n.fixed || n.id === dragId) continue
-          const padX = (n.hw || n.r) + 6, padY = (n.hh || n.r) + 6
-          if (n.x < padX) n.x = padX
-          if (n.x > W - padX) n.x = W - padX
-          if (n.y < padY) n.y = padY
-          if (n.y > H - padY) n.y = H - padY
-        }
+      for (const n of sim) {
+        if (n.fixed || n.id === dragId) continue
+        const padX = (n.hw || n.r) + 6, padY = (n.hh || n.r) + 6
+        if (n.x < padX) n.x = padX
+        if (n.x > W - padX) n.x = W - padX
+        if (n.y < padY) n.y = padY
+        if (n.y > H - padY) n.y = H - padY
       }
     }
 
